@@ -1,0 +1,20 @@
+---
+const clients = [
+  "Fajar Banua Group", "Pertamina", "PT. PP (Persero) Tbk", "Tripatra", "Friesland Campina",
+];
+---
+
+<section class="py-16 bg-white border-y border-slate-100">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-10">
+      <span class="text-slate-400 text-sm font-medium tracking-wider uppercase">Trusted By Industry Leaders</span>
+    </div>
+    <div class="flex flex-wrap items-center justify-center gap-6">
+      {clients.map(client => (
+        <div class="flex items-center justify-center h-16 px-8 bg-slate-50 rounded-lg border border-slate-100 hover:border-slate-200 transition-colors duration-200">
+          <span class="text-slate-400 font-heading font-bold text-sm text-center leading-tight">{client}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

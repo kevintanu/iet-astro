@@ -1,0 +1,110 @@
+---
+const navLinks = [
+  { label: "Services", href: "#services" },
+  { label: "About", href: "#about" },
+  { label: "Industries", href: "#industries" },
+  { label: "Projects", href: "#projects" },
+  { label: "Contact", href: "#contact" },
+];
+---
+
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-20">
+      <!-- Logo -->
+      <a href="#" class="flex items-center gap-3 group cursor-pointer" aria-label="IET Home">
+        <div class="w-10 h-10 bg-accent-500 rounded flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
+          <span class="font-heading text-white font-extrabold text-lg leading-none">IE</span>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-heading text-white font-bold text-base tracking-tight leading-tight nav-logo-text">Indo Energy Tekniko</span>
+          <span class="text-slate-400 text-[10px] tracking-[0.2em] uppercase leading-tight nav-sub-text">Engineering Solutions</span>
+        </div>
+      </a>
+
+      <!-- Desktop Nav -->
+      <div class="hidden lg:flex items-center gap-1">
+        {navLinks.map(link => (
+          <a
+            href={link.href}
+            class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors duration-200 rounded-md hover:bg-white/5 cursor-pointer"
+          >
+            {link.label}
+          </a>
+        ))}
+        <a
+          href="#contact"
+          class="ml-4 px-5 py-2.5 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer hover:shadow-lg hover:shadow-accent-500/20"
+        >
+          Request a Proposal
+        </a>
+      </div>
+
+      <!-- Mobile Menu Button -->
+      <button
+        id="mobile-menu-btn"
+        class="lg:hidden p-2 text-slate-300 hover:text-white cursor-pointer"
+        aria-label="Toggle navigation menu"
+        aria-expanded="false"
+      >
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="lg:hidden hidden bg-navy-900/98 backdrop-blur-xl border-t border-white/5">
+    <div class="px-4 py-6 space-y-1">
+      {navLinks.map(link => (
+        <a
+          href={link.href}
+          class="block px-4 py-3 text-slate-300 hover:text-white hover:bg-white/5 rounded-md transition-colors duration-200 cursor-pointer font-medium"
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="#contact"
+        class="block mt-4 px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white text-center rounded-md font-semibold transition-colors duration-200 cursor-pointer"
+      >
+        Request a Proposal
+      </a>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // Scroll effect for nav
+  const nav = document.getElementById('main-nav');
+  const handleScroll = () => {
+    if (!nav) return;
+    if (window.scrollY > 80) {
+      nav.classList.add('bg-navy-950/95', 'backdrop-blur-xl', 'shadow-lg', 'shadow-black/10');
+      nav.classList.remove('bg-transparent');
+    } else {
+      nav.classList.remove('bg-navy-950/95', 'backdrop-blur-xl', 'shadow-lg', 'shadow-black/10');
+      nav.classList.add('bg-transparent');
+    }
+  };
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
+
+  // Mobile menu toggle
+  const menuBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn?.addEventListener('click', () => {
+    const isOpen = !mobileMenu?.classList.contains('hidden');
+    mobileMenu?.classList.toggle('hidden');
+    menuBtn?.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  // Close mobile menu on link click
+  mobileMenu?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      menuBtn?.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>

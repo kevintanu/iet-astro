@@ -1,0 +1,76 @@
+---
+const team = [
+  {
+    name: "Member Name",
+    role: "Director",
+    image: "/team/team-1.jpg",
+  },
+  {
+    name: "Member Name",
+    role: "Engineering Manager",
+    image: "/team/team-2.jpg",
+  },
+  {
+    name: "Member Name",
+    role: "Project Manager",
+    image: "/team/team-3.jpg",
+  },
+  {
+    name: "Member Name",
+    role: "Lead Process Engineer",
+    image: "/team/team-4.jpg",
+  },
+  {
+    name: "Member Name",
+    role: "HSE Manager",
+    image: "/team/team-5.jpg",
+  },
+];
+---
+
+<section id="team" class="py-24 lg:py-32 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <div class="w-10 h-px bg-accent-500"></div>
+        <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Our Team</span>
+        <div class="w-10 h-px bg-accent-500"></div>
+      </div>
+      <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">
+        Experienced <span class="text-brand-500">Engineering Professionals</span>
+      </h2>
+      <p class="mt-5 text-slate-500 text-lg leading-relaxed">
+        Our leadership team brings decades of combined experience in industrial plant engineering across multiple disciplines and industries.
+      </p>
+    </div>
+
+    <!-- Team Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+      {team.map((member) => (
+        <div class="group">
+          <!-- Photo -->
+          <div class="aspect-square rounded-xl overflow-hidden bg-slate-200 mb-4 relative">
+            <img
+              src={member.image}
+              alt={member.name}
+              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+              loading="lazy"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+            />
+            <div class="hidden absolute inset-0 items-center justify-center bg-slate-200">
+              <svg class="w-16 h-16 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="0.75">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+              </svg>
+            </div>
+            <!-- Overlay on hover -->
+            <div class="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/10 transition-colors duration-300 rounded-xl"></div>
+          </div>
+          <!-- Info -->
+          <h3 class="font-heading font-bold text-navy-900 text-sm lg:text-base">{member.name}</h3>
+          <p class="text-slate-500 text-xs lg:text-sm mt-0.5">{member.role}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
