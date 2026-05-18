@@ -1,86 +1,154 @@
 ---
 const projects = [
-  {
-    category: "Oil & Gas",
-    title: "Crude Oil Refinery Expansion",
-    image: "/projects/project-1.jpg",
-    description: "",
-  },
-  {
-    category: "Power Plant",
-    title: "Combined Cycle Power Plant",
-    image: "/projects/project-2.jpg",
-    description: "",
-  },
-  {
-    category: "Petrochemical",
-    title: "Olefins Plant Revamp",
-    image: "/projects/project-3.jpg",
-    description: "",
-  },
-  {
-    category: "Geothermal",
-    title: "Geothermal Power Station",
-    image: "/projects/project-4.jpg",
-    description: "",
-  },
+  "/projects/001_pdms-768x404.jpg",
+  "/projects/022_polymerization_plant-768x386.jpg",
+  "/projects/003_coalhandling-768x396.jpg",
+  "/projects/004_chemicalplantsg-768x411.jpg",
+  "/projects/005_powerplantid-768x409.jpg",
+  "/projects/006_3dplant-768x385.jpg",
+  "/projects/007_pidconv-768x375.jpg",
+  "/projects/008_electricalcable-768x337.jpg",
+  "/projects/009_skidinplace-768x353.jpg",
+  "/projects/010_circularplatform-768x416.jpg",
+  "/projects/011_analysis_design-768x406.jpg",
+  "/projects/012_structural_design-768x414.jpg",
+  "/projects/013_mechanical_design-768x417.jpg",
+  "/projects/014_pipe_stress_analysis-768x403.jpg",
+  "/projects/015_skid_ga-768x429.jpg",
+  "/projects/016_typical_skid-768x416.jpg",
+  "/projects/017_centrifugal_pump-768x374.jpg",
+  "/projects/018_metering_skid_design-768x413.jpg",
+  "/projects/018_metering_skid_detailing-768x392.jpg",
+  "/projects/019_waster_water_treatment-768x408.jpg",
+  "/projects/020_waster_water_treatment-768x420.jpg",
+  "/projects/021_tank_farm_area-768x406.jpg",
+  "/projects/002_uaecad-768x411.jpg",
+  "/projects/023_coal_handling_3d-768x396.jpg",
 ];
 ---
 
 <section id="projects" class="py-24 lg:py-32 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <!-- Header -->
-    <div class="max-w-3xl mb-16 lg:mb-20">
-      <div class="flex items-center gap-3 mb-4">
+    <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+      <div class="inline-flex items-center gap-3 mb-4">
         <div class="w-10 h-px bg-accent-500"></div>
-        <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Project Experience</span>
+        <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Our Work</span>
+        <div class="w-10 h-px bg-accent-500"></div>
       </div>
       <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">
-        Proven Track Record in <span class="text-brand-500">Complex Projects</span>
+        Engineering <span class="text-brand-500">Project Gallery</span>
       </h2>
       <p class="mt-5 text-slate-500 text-lg leading-relaxed">
-        Selected references from our portfolio of successfully delivered engineering projects.
+        A selection of our engineering deliverables — from 3D plant models and P&ID conversions 
+        to structural analysis, piping design, and complete facility layouts.
       </p>
     </div>
 
-    <!-- Project Cards -->
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      {projects.map((project) => (
-        <div class="group border border-slate-200 hover:border-brand-500/30 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-lg hover:shadow-brand-500/5">
-          <!-- Image -->
-          <div class="aspect-[4/3] bg-slate-100 overflow-hidden relative">
-            <img
-              src={project.image}
-              alt={project.title}
-              class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-              loading="lazy"
-              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
-            />
-            <div class="hidden absolute inset-0 items-center justify-center bg-slate-100">
-              <svg class="w-12 h-12 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-              </svg>
-            </div>
-          </div>
-          <!-- Content -->
-          <div class="p-5">
-            <span class="text-accent-500 text-xs font-bold tracking-wider uppercase">{project.category}</span>
-            <h3 class="font-heading text-base font-bold text-navy-900 mt-1.5">{project.title}</h3>
-            {project.description && (
-              <p class="text-slate-500 text-sm mt-2 leading-relaxed">{project.description}</p>
-            )}
-          </div>
+    <!-- Masonry Grid -->
+    <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+      {projects.map((src, i) => (
+        <div class="break-inside-avoid overflow-hidden rounded-lg group cursor-pointer" data-lightbox={src}>
+          <img
+            src={src}
+            alt={`Engineering project ${i + 1}`}
+            class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
+            loading={i < 6 ? "eager" : "lazy"}
+          />
         </div>
       ))}
     </div>
 
+    <!-- Lightbox -->
+    <div id="lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Image preview">
+      <!-- Close button -->
+      <button id="lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10" aria-label="Close preview">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+      <!-- Prev button -->
+      <button id="lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10 p-2" aria-label="Previous image">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <!-- Next button -->
+      <button id="lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10 p-2" aria-label="Next image">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+      <!-- Image -->
+      <img id="lightbox-img" src="" alt="Project preview" class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+      <!-- Counter -->
+      <div id="lightbox-counter" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium"></div>
+    </div>
+
     <!-- CTA row -->
-    <div class="mt-12 text-center">
-      <p class="text-slate-500 mb-4">Interested in our full project portfolio and reference list?</p>
-      <a href="#contact" class="inline-flex items-center gap-2 text-brand-500 hover:text-brand-600 font-semibold transition-colors duration-200 cursor-pointer">
+    <div class="mt-16 text-center">
+      <p class="text-slate-500 mb-4">Want to see our full credentials and project references?</p>
+      <a href="/#contact" class="inline-flex items-center gap-2 text-brand-500 hover:text-brand-600 font-semibold transition-colors duration-200 cursor-pointer">
         Request our credentials package
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
       </a>
     </div>
   </div>
 </section>
+
+<script>
+  const lightbox = document.getElementById('lightbox')!;
+  const lightboxImg = document.getElementById('lightbox-img') as HTMLImageElement;
+  const lightboxCounter = document.getElementById('lightbox-counter')!;
+  const items = document.querySelectorAll<HTMLElement>('[data-lightbox]');
+  const sources = Array.from(items).map(el => el.dataset.lightbox!);
+  let currentIndex = 0;
+
+  function open(index: number) {
+    currentIndex = index;
+    update();
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function update() {
+    lightboxImg.src = sources[currentIndex];
+    lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
+  }
+
+  function next() {
+    currentIndex = (currentIndex + 1) % sources.length;
+    update();
+  }
+
+  function prev() {
+    currentIndex = (currentIndex - 1 + sources.length) % sources.length;
+    update();
+  }
+
+  // Open on click
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => open(i));
+  });
+
+  // Close button
+  document.getElementById('lightbox-close')!.addEventListener('click', close);
+
+  // Nav buttons
+  document.getElementById('lightbox-next')!.addEventListener('click', next);
+  document.getElementById('lightbox-prev')!.addEventListener('click', prev);
+
+  // Close on backdrop click
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) close();
+  });
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+</script>
