@@ -1,10 +1,12 @@
 ---
+import logo from '../assets/logo.png';
+
 const navLinks = [
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
-  { label: "Industries", href: "#industries" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "About", href: "/#about" },
+  { label: "Industries", href: "/#industries" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
 ];
 ---
 
@@ -12,14 +14,9 @@ const navLinks = [
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-20">
       <!-- Logo -->
-      <a href="#" class="flex items-center gap-3 group cursor-pointer" aria-label="IET Home">
-        <div class="w-10 h-10 bg-accent-500 rounded flex items-center justify-center transition-transform duration-200 group-hover:scale-105">
-          <span class="font-heading text-white font-extrabold text-lg leading-none">IE</span>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-heading text-white font-bold text-base tracking-tight leading-tight nav-logo-text">Indo Energy Tekniko</span>
-          <span class="text-slate-400 text-[10px] tracking-[0.2em] uppercase leading-tight nav-sub-text">Engineering Solutions</span>
-        </div>
+      <a href="/" class="flex items-center gap-3 group cursor-pointer" aria-label="IET Home">
+        <img src={logo.src} alt="Indo Energy Tekniko" class="h-10 w-auto transition-transform duration-200 group-hover:scale-105" />
+        <span class="font-heading text-white font-bold text-sm leading-tight hidden sm:block">PT. Indo Energy<br/>Tekniko</span>
       </a>
 
       <!-- Desktop Nav -->
@@ -33,7 +30,7 @@ const navLinks = [
           </a>
         ))}
         <a
-          href="#contact"
+          href="/#contact"
           class="ml-4 px-5 py-2.5 bg-accent-500 hover:bg-accent-600 text-white text-sm font-semibold rounded-md transition-all duration-200 cursor-pointer hover:shadow-lg hover:shadow-accent-500/20"
         >
           Request a Proposal
@@ -66,7 +63,7 @@ const navLinks = [
         </a>
       ))}
       <a
-        href="#contact"
+        href="/#contact"
         class="block mt-4 px-4 py-3 bg-accent-500 hover:bg-accent-600 text-white text-center rounded-md font-semibold transition-colors duration-200 cursor-pointer"
       >
         Request a Proposal

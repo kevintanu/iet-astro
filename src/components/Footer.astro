@@ -1,4 +1,6 @@
 ---
+import logo from '../assets/logo.png';
+
 const footerServices = [
   "FEED Engineering",
   "Detail Engineering",
@@ -22,11 +24,11 @@ const footerIndustries = [
 ];
 
 const quickLinks = [
-  { label: "Services", href: "#services" },
-  { label: "About Us", href: "#about" },
-  { label: "Industries", href: "#industries" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { label: "Services", href: "/#services" },
+  { label: "About Us", href: "/#about" },
+  { label: "Industries", href: "/#industries" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
 ];
 ---
 
@@ -37,22 +39,14 @@ const quickLinks = [
       <!-- Brand column -->
       <div class="lg:col-span-4">
         <div class="flex items-center gap-3 mb-5">
-          <div class="w-10 h-10 bg-accent-500 rounded flex items-center justify-center">
-            <span class="font-heading text-white font-extrabold text-lg leading-none">IE</span>
-          </div>
-          <div class="flex flex-col">
-            <span class="font-heading text-white font-bold text-base tracking-tight leading-tight">Indo Energy Tekniko</span>
-            <span class="text-slate-500 text-[10px] tracking-[0.2em] uppercase leading-tight">Engineering Solutions</span>
-          </div>
+          <img src={logo.src} alt="Indo Energy Tekniko" class="h-10 w-auto" />
+          <span class="font-heading text-white font-bold text-sm leading-tight">PT. Indo Energy<br/>Tekniko</span>
         </div>
         <p class="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
           Leading industrial engineering consultant providing comprehensive FEED, Detail Engineering, 
           and EPCM support solutions for the energy and process industries.
         </p>
         <div class="flex items-center gap-2">
-          <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
-            ISO 9001:2015
-          </div>
           <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
             ASME
           </div>
@@ -68,7 +62,7 @@ const quickLinks = [
         <ul class="space-y-2.5">
           {footerServices.map(service => (
             <li>
-              <a href="#services" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{service}</a>
+              <a href="/#services" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{service}</a>
             </li>
           ))}
         </ul>
@@ -80,7 +74,7 @@ const quickLinks = [
         <ul class="space-y-2.5">
           {footerIndustries.map(industry => (
             <li>
-              <a href="#industries" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{industry}</a>
+              <a href="/#industries" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{industry}</a>
             </li>
           ))}
         </ul>
@@ -113,11 +107,12 @@ const quickLinks = [
   <div class="border-t border-white/5">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
       <p class="text-slate-600 text-xs">
-        &copy; {new Date().getFullYear()} PT. Indo Energy Tekniko. All rights reserved.
+        &copy; 2020–{new Date().getFullYear()} PT. Indo Energy Tekniko. All rights reserved.
       </p>
       <div class="flex items-center gap-6">
-        <a href="#" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Privacy Policy</a>
-        <a href="#" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Terms of Service</a>
+        <span class="text-slate-600 text-xs">Site by Kevin T</span>
+        <a href="/privacy-policy" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Privacy Policy</a>
+        <a href="/terms-of-service" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Terms of Service</a>
       </div>
     </div>
   </div>
