@@ -90,7 +90,7 @@ const reasons = [
           <form class="space-y-5" id="contact-form">
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
-                <label for="name" class="block text-sm font-medium text-navy-900 mb-1.5">Full Name</label>
+                <label for="name" class="block text-sm font-medium text-navy-900 mb-1.5">Full Name <span class="text-red-500">*</span></label>
                 <input
                   type="text"
                   id="name"
@@ -101,7 +101,7 @@ const reasons = [
                 />
               </div>
               <div>
-                <label for="company" class="block text-sm font-medium text-navy-900 mb-1.5">Company</label>
+                <label for="company" class="block text-sm font-medium text-navy-900 mb-1.5">Company <span class="text-red-500">*</span></label>
                 <input
                   type="text"
                   id="company"
@@ -114,7 +114,7 @@ const reasons = [
             </div>
             <div class="grid sm:grid-cols-2 gap-5">
               <div>
-                <label for="email" class="block text-sm font-medium text-navy-900 mb-1.5">Email</label>
+                <label for="email" class="block text-sm font-medium text-navy-900 mb-1.5">Email <span class="text-red-500">*</span></label>
                 <input
                   type="email"
                   id="email"
@@ -136,7 +136,7 @@ const reasons = [
               </div>
             </div>
             <div>
-              <label for="service" class="block text-sm font-medium text-navy-900 mb-1.5">Service Required</label>
+              <label for="service" class="block text-sm font-medium text-navy-900 mb-1.5">Service Required <span class="text-red-500">*</span></label>
               <select
                 id="service"
                 name="service"
@@ -175,7 +175,7 @@ const reasons = [
               </select>
             </div>
             <div>
-              <label for="message" class="block text-sm font-medium text-navy-900 mb-1.5">Project Description</label>
+              <label for="message" class="block text-sm font-medium text-navy-900 mb-1.5">Project Description <span class="text-red-500">*</span></label>
               <textarea
                 id="message"
                 name="message"
@@ -185,13 +185,18 @@ const reasons = [
                 placeholder="Brief description of your project requirements, timeline, and scope..."
               ></textarea>
             </div>
+            <!-- Honeypot -->
+            <div class="absolute opacity-0 top-0 left-0 h-0 w-0 -z-10" aria-hidden="true">
+              <input type="text" name="website" tabindex="-1" autocomplete="off" />
+            </div>
             <button
               type="submit"
+              id="submit-btn"
               class="w-full py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all duration-200 cursor-pointer hover:shadow-lg hover:shadow-accent-500/20 text-base"
             >
               Submit Inquiry
             </button>
-            <p class="text-slate-400 text-xs text-center">
+            <p id="form-status" class="text-slate-400 text-xs text-center">
               We respond to all engineering inquiries within 24 business hours.
             </p>
           </form>
@@ -200,3 +205,42 @@ const reasons = [
     </div>
   </div>
 </section>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const btn = document.getElementById('submit-btn') as HTMLButtonElement;
+  const status = document.getElementById('form-status')!;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const data = Object.fromEntries(new FormData(form));
+
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+
+      if (res.ok) {
+        status.textContent = '✓ Inquiry submitted successfully. We\'ll be in touch within 24 hours.';
+        status.classList.remove('text-slate-400', 'text-red-500');
+        status.classList.add('text-green-600');
+        form.reset();
+      } else {
+        const err = await res.json();
+        throw new Error(err.message || 'Submission failed');
+      }
+    } catch (error: any) {
+      status.textContent = error.message || 'Something went wrong. Please email us directly.';
+      status.classList.remove('text-slate-400', 'text-green-600');
+      status.classList.add('text-red-500');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Submit Inquiry';
+    }
+  });
+</script>
