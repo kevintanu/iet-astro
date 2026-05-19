@@ -26,9 +26,15 @@ const industries = [
   },
   {
     icon: "M4 7v10c0 2.21 3.582 4 8 4s8-1.79 8-4V7M4 7c0 2.21 3.582 4 8 4s8-1.79 8-4M4 7c0-2.21 3.582-4 8-4s8 1.79 8 4m0 5c0 2.21-3.582 4-8 4s-8-1.79-8-4",
-    name: "Fertilizer",
-    description: "Ammonia, urea, NPK, and phosphate production facilities with focus on energy efficiency and environmental compliance.",
-    projects: "15+",
+    name: "Pharmaceutical",
+    description: "GMP-compliant pharmaceutical manufacturing facilities, clean room design, and process validation engineering.",
+    projects: "10+",
+  },
+  {
+    icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
+    name: "FMCG & Manufacturing",
+    description: "Fast-moving consumer goods production lines, packaging facilities, and industrial manufacturing plant engineering.",
+    projects: "10+",
   },
   {
     icon: "M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z",
@@ -89,7 +95,7 @@ const industries = [
     <div class="mt-16 flex flex-col sm:flex-row items-center justify-center gap-8 text-center">
       <div class="text-slate-500 text-sm font-medium uppercase tracking-wider">Active Regions</div>
       <div class="flex flex-wrap justify-center gap-6">
-        {["Indonesia", "India"].map(region => (
+        {["Indonesia", "India", "UAE", "Australia"].map(region => (
           <div class="flex items-center gap-2 text-slate-300 text-sm">
             <div class="w-2 h-2 bg-accent-500 rounded-full"></div>
             {region}

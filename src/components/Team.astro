@@ -10,21 +10,6 @@ const team = [
     role: "Operation Director & Process Design",
     image: "/team/hitesh-sandhal.jpg",
   },
-  {
-    name: "Emad Gebesy",
-    role: "Principal Solution Consultant",
-    image: "/team/emad-gebesy.jpg",
-  },
-  {
-    name: "Elvira Rumangu",
-    role: "Senior Manager Operations",
-    image: "/team/elvira-rumangu.jpg",
-  },
-  {
-    name: "Kevin T",
-    role: "Technical Admin",
-    image: "/team/kevin-t.jpg",
-  },
 ];
 ---
 
@@ -46,7 +31,7 @@ const team = [
     </div>
 
     <!-- Team Grid -->
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+    <div class="grid grid-cols-2 gap-6 max-w-md mx-auto">
       {team.map((member) => (
         <div class="group">
           <!-- Photo -->

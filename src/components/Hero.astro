@@ -1,8 +1,8 @@
 ---
 const stats = [
-  { value: "15+", label: "Years Experience" },
+  { value: "20+", label: "Professional Engineer Experience" },
   { value: "20+", label: "Projects Delivered" },
-  { value: "10+", label: "Industry Clients" },
+  { value: "10+", label: "Global MNC Clients" },
 ];
 ---
 
@@ -75,10 +75,6 @@ const stats = [
             <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
             ASME / API Compliant
           </div>
-          <div class="hidden sm:flex items-center gap-2 text-slate-500 text-sm">
-            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
-            15+ Years Experience
-          </div>
         </div>
       </div>
 
@@ -97,10 +93,17 @@ const stats = [
               </div>
             ))}
           </div>
+          <!-- Active Regions -->
           <div class="pt-4 border-t border-white/[0.06]">
-            <p class="text-slate-500 text-xs leading-relaxed">
-              Trusted by leading EPC contractors and plant owners across Indonesia and the region.
-            </p>
+            <div class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Active Regions</div>
+            <div class="flex flex-wrap gap-3">
+              {["Indonesia", "India", "UAE", "Australia"].map(region => (
+                <div class="flex items-center gap-1.5 text-slate-300 text-sm">
+                  <div class="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
+                  {region}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </div>
