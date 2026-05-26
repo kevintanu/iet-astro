@@ -1,3 +1,5 @@
+export const prerender = false;
+
 import type { APIRoute } from "astro";
 
 export const POST: APIRoute = async ({ request }) => {
@@ -57,6 +59,46 @@ export const POST: APIRoute = async ({ request }) => {
 
     if (!discordRes.ok) {
       console.error("Discord webhook failed:", discordRes.status);
+    }
+
+    // Telegram notification
+    const telegramToken = import.meta.env.TELEGRAM_BOT_TOKEN;
+    const telegramChatId = import.meta.env.TELEGRAM_CHAT_ID;
+
+    if (telegramToken && telegramChatId) {
+      const text = [
+        `📩 *New Engineering Inquiry*`,
+        ``,
+        `*Name:* ${name}`,
+        `*Company:* ${company || "—"}`,
+        `*Email:* ${email}`,
+        `*Phone:* ${phone || "—"}`,
+        `*Service:* ${service || "—"}`,
+        `*Industry:* ${industry || "—"}`,
+        ``,
+        `*Message:*`,
+        message,
+      ].join("\n");
+
+      const telegramRes = await fetch(
+        `https://api.telegram.org/bot${telegramToken}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: telegramChatId,
+            text,
+            parse_mode: "Markdown",
+          }),
+        }
+      );
+
+      if (!telegramRes.ok) {
+        console.error("Telegram notification failed:", telegramRes.status);
+      }
+    }
+
+    if (!discordRes.ok && (!telegramToken || !telegramChatId)) {
       return new Response(
         JSON.stringify({ message: "Failed to send notification." }),
         { status: 500 }
