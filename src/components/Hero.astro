@@ -1,0 +1,115 @@
+---
+const stats = [
+  { value: "20+", label: "Professional Engineer Experience" },
+  { value: "20+", label: "Projects Delivered" },
+  { value: "10+", label: "Global MNC Clients" },
+];
+---
+
+<section class="relative min-h-screen flex items-center overflow-hidden">
+  <!-- Background -->
+  <div class="absolute inset-0 bg-navy-950">
+    <!-- Grid pattern overlay -->
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <!-- Gradient accents -->
+    <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-600/8 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3"></div>
+    <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-500/5 rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4"></div>
+    <!-- Diagonal accent line -->
+    <div class="absolute top-0 right-[20%] w-px h-full bg-gradient-to-b from-transparent via-accent-500/20 to-transparent"></div>
+    <div class="absolute top-0 right-[20.5%] w-px h-full bg-gradient-to-b from-transparent via-brand-400/10 to-transparent"></div>
+  </div>
+
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-28 w-full">
+    <div class="grid lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+      <!-- Left Content -->
+      <div class="lg:col-span-7 space-y-8">
+        <!-- Badge -->
+        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+          <span class="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></span>
+          <span class="text-slate-400 text-xs font-medium tracking-wider uppercase">Industrial Engineering Consultant</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-extrabold text-white leading-[1.1] tracking-tight">
+          Worldwide Professional
+          <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500 pb-2">Energy Solutions</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="text-slate-300 text-lg lg:text-xl font-medium tracking-wide uppercase">
+          We don't just design. We design for <span class="text-accent-400">functionality</span> and <span class="text-accent-400">manufacturability</span>.
+        </p>
+
+        <!-- Description -->
+        <p class="text-slate-400 text-lg lg:text-xl leading-relaxed max-w-xl">
+          PT. Indo Energy Tekniko delivers comprehensive FEED & Detail Engineering, EPCM support, and plant design solutions for the energy and process industries.
+        </p>
+
+        <!-- CTA buttons -->
+        <div class="flex flex-col sm:flex-row gap-4">
+          <a
+            href="#contact"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all duration-200 cursor-pointer hover:shadow-xl hover:shadow-accent-500/20 text-base"
+          >
+            Discuss Your Project
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+          <a
+            href="/Company_Profile_IET_2024.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 font-semibold rounded-lg transition-all duration-200 cursor-pointer text-base"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+            Company Profile
+          </a>
+        </div>
+
+        <!-- Trust bar -->
+        <div class="flex items-center gap-6 pt-4">
+          <div class="flex items-center gap-2 text-slate-500 text-sm">
+            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+            International Standards
+          </div>
+          <div class="flex items-center gap-2 text-slate-500 text-sm">
+            <svg class="w-4 h-4 text-success" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+            ASME / API Compliant
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Stats Panel -->
+      <div class="lg:col-span-5">
+        <div class="bg-white/[0.03] backdrop-blur-sm border border-white/[0.06] rounded-2xl p-8 space-y-6">
+          <div class="flex items-center gap-3 pb-4 border-b border-white/[0.06]">
+            <div class="w-3 h-3 bg-accent-500 rounded-full"></div>
+            <span class="text-slate-400 text-sm font-medium tracking-wider uppercase">Performance Metrics</span>
+          </div>
+          <div class="grid grid-cols-2 gap-6">
+            {stats.map(stat => (
+              <div class="space-y-1">
+                <div class="font-heading text-3xl lg:text-4xl font-extrabold text-white">{stat.value}</div>
+                <div class="text-slate-500 text-sm">{stat.label}</div>
+              </div>
+            ))}
+          </div>
+          <!-- Active Regions -->
+          <div class="pt-4 border-t border-white/[0.06]">
+            <div class="text-slate-500 text-xs font-medium uppercase tracking-wider mb-3">Active Regions</div>
+            <div class="flex flex-wrap gap-3">
+              {["Indonesia", "India", "UAE", "Australia"].map(region => (
+                <div class="flex items-center gap-1.5 text-slate-300 text-sm">
+                  <div class="w-1.5 h-1.5 bg-accent-500 rounded-full"></div>
+                  {region}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom fade -->
+  <div class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white to-transparent"></div>
+</section>

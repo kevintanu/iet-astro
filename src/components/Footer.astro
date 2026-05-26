@@ -1,0 +1,119 @@
+---
+import logo from '../assets/logo.png';
+
+const footerServices = [
+  "FEED Engineering",
+  "Detail Engineering",
+  "Process Engineering",
+  "Piping Engineering",
+  "Electrical Engineering",
+  "Instrumentation Engineering",
+  "3D Plant Modeling",
+  "Safety Studies",
+];
+
+const footerIndustries = [
+  "Oil & Gas",
+  "Power Plants",
+  "Petrochemical",
+  "Fertilizer",
+  "Geothermal",
+  "Renewable Energy",
+  "Chemical Plants",
+  "Manufacturing",
+];
+
+const quickLinks = [
+  { label: "Services", href: "/#services" },
+  { label: "About Us", href: "/#about" },
+  { label: "Industries", href: "/#industries" },
+  { label: "Projects", href: "/#projects" },
+  { label: "Contact", href: "/#contact" },
+];
+---
+
+<footer class="bg-navy-950 border-t border-white/5">
+  <!-- Main footer -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8">
+      <!-- Brand column -->
+      <div class="lg:col-span-4">
+        <div class="flex items-center gap-3 mb-5">
+          <img src={logo.src} alt="Indo Energy Tekniko" class="h-10 w-auto" />
+          <span class="font-heading text-white font-bold text-sm leading-tight">PT. Indo Energy<br/>Tekniko</span>
+        </div>
+        <p class="text-slate-500 text-sm leading-relaxed mb-6 max-w-xs">
+          Leading industrial engineering consultant providing comprehensive FEED, Detail Engineering, 
+          and EPCM support solutions for the energy and process industries.
+        </p>
+        <div class="flex items-center gap-2">
+          <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
+            ASME
+          </div>
+          <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
+            API
+          </div>
+        </div>
+      </div>
+
+      <!-- Services -->
+      <div class="lg:col-span-3">
+        <h4 class="font-heading font-bold text-white text-sm mb-5 tracking-wider uppercase">Services</h4>
+        <ul class="space-y-2.5">
+          {footerServices.map(service => (
+            <li>
+              <a href="/#services" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{service}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Industries -->
+      <div class="lg:col-span-3">
+        <h4 class="font-heading font-bold text-white text-sm mb-5 tracking-wider uppercase">Industries</h4>
+        <ul class="space-y-2.5">
+          {footerIndustries.map(industry => (
+            <li>
+              <a href="/#industries" class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{industry}</a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Quick Links + Contact -->
+      <div class="lg:col-span-2">
+        <h4 class="font-heading font-bold text-white text-sm mb-5 tracking-wider uppercase">Company</h4>
+        <ul class="space-y-2.5 mb-8">
+          {quickLinks.map(link => (
+            <li>
+              <a href={link.href} class="text-slate-500 hover:text-slate-300 text-sm transition-colors duration-200 cursor-pointer">{link.label}</a>
+            </li>
+          ))}
+        </ul>
+        <h4 class="font-heading font-bold text-white text-sm mb-3 tracking-wider uppercase">Location</h4>
+        <p class="text-slate-500 text-sm leading-relaxed">
+          Kirana Two Office Tower, Level 10-A<br />
+          Jl. Boulevard Timur No. 88, Kelapa Gading<br />
+          Jakarta Utara 14240, Indonesia
+        </p>
+        <p class="text-slate-500 text-sm mt-3">
+          sales@indoenergytekniko.com
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom bar -->
+  <div class="border-t border-white/5">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p class="text-slate-600 text-xs">
+        &copy; 2020–{new Date().getFullYear()} PT. Indo Energy Tekniko. All rights reserved.
+      </p>
+      <div class="flex items-center gap-6">
+        <span class="text-slate-600 text-xs">Site by Kevin T</span>
+        <a href="/privacy-policy" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Privacy Policy</a>
+        <a href="/terms-of-service" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
