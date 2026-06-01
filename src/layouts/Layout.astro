@@ -8,6 +8,10 @@ const {
 	title = "PT. Indo Energy Tekniko | Industrial Engineering & EPCM Solutions",
 	description = "Leading industrial engineering consultant providing FEED, Detail Engineering, EPCM support, and plant design solutions for Oil & Gas, Power Plants, Petrochemical, and Process Industries across Indonesia and Southeast Asia."
 } = Astro.props;
+
+// Google Tag Manager — set PUBLIC_GTM_ID in your environment to activate.
+// Replace the placeholder below with your real container ID (e.g. GTM-ABC1234).
+const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? "GTM-XXXXXXX";
 ---
 
 <!doctype html>
@@ -24,8 +28,27 @@ const {
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
 		<meta name="theme-color" content="#0B1426" />
+		<!-- Google Tag Manager -->
+		<script is:inline define:vars={{ GTM_ID }}>
+			(function (w, d, s, l, i) {
+				w[l] = w[l] || [];
+				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
+				var f = d.getElementsByTagName(s)[0],
+					j = d.createElement(s),
+					dl = l != "dataLayer" ? "&l=" + l : "";
+				j.async = true;
+				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+				f.parentNode.insertBefore(j, f);
+			})(window, document, "script", "dataLayer", GTM_ID);
+		</script>
+		<!-- End Google Tag Manager -->
 	</head>
 	<body class="min-h-screen">
+		<!-- Google Tag Manager (noscript) -->
+		<noscript>
+			<iframe src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`} height="0" width="0" style="display:none;visibility:hidden"></iframe>
+		</noscript>
+		<!-- End Google Tag Manager (noscript) -->
 		<slot />
 	</body>
 </html>
