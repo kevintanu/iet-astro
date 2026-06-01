@@ -127,7 +127,22 @@ const lightboxImages = await Promise.all(
   const lightboxCounter = document.getElementById('lightbox-counter')!;
   const items = document.querySelectorAll<HTMLElement>('[data-lightbox]');
   const sources = Array.from(items).map(el => el.dataset.lightbox!);
+  // The thumbnails already painted in the grid — used for an instant preview.
+  const thumbs = Array.from(items).map(el => el.querySelector('img') as HTMLImageElement);
   let currentIndex = 0;
+
+  // Track which full-size sources have finished downloading.
+  const loaded = new Set<string>();
+  function preload(src: string) {
+    if (loaded.has(src)) return;
+    const img = new Image();
+    img.onload = () => loaded.add(src);
+    img.src = src;
+  }
+  function preloadNeighbours() {
+    preload(sources[(currentIndex + 1) % sources.length]);
+    preload(sources[(currentIndex - 1 + sources.length) % sources.length]);
+  }
 
   function open(index: number) {
     currentIndex = index;
@@ -144,8 +159,26 @@ const lightboxImages = await Promise.all(
   }
 
   function update() {
-    lightboxImg.src = sources[currentIndex];
-    lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
+    const index = currentIndex;
+    const fullSrc = sources[index];
+    lightboxCounter.textContent = `${index + 1} / ${sources.length}`;
+
+    if (loaded.has(fullSrc)) {
+      // Full-size already cached — show it straight away.
+      lightboxImg.src = fullSrc;
+    } else {
+      // Show the thumbnail the browser already painted for an instant preview,
+      // then upgrade to the full-size image once it finishes downloading.
+      lightboxImg.src = thumbs[index]?.currentSrc || thumbs[index]?.src || fullSrc;
+      const full = new Image();
+      full.onload = () => {
+        loaded.add(fullSrc);
+        // Only swap if the user is still viewing this image.
+        if (currentIndex === index) lightboxImg.src = fullSrc;
+      };
+      full.src = fullSrc;
+    }
+    preloadNeighbours();
   }
 
   function next() {
