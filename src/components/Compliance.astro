@@ -1,0 +1,201 @@
+---
+import { Image, getImage } from 'astro:assets';
+import iso9001 from '../assets/compliance/iso-9001-2015.jpg';
+import iso14001 from '../assets/compliance/iso-14001-2015.jpg';
+import iso45001 from '../assets/compliance/iso-45001-2018.jpg';
+
+const certifications = [
+  {
+    code: "ISO 9001:2015",
+    title: "Quality Management System",
+    description:
+      "Demonstrating our commitment to consistent quality, continual improvement, and customer satisfaction across every engineering deliverable.",
+    image: iso9001,
+  },
+  {
+    code: "ISO 14001:2015",
+    title: "Environmental Management System",
+    description:
+      "A structured framework for minimizing our environmental footprint and supporting sustainable, responsible engineering practices.",
+    image: iso14001,
+  },
+  {
+    code: "ISO 45001:2018",
+    title: "Occupational Health & Safety",
+    description:
+      "Proactively safeguarding the health and safety of our people, partners, and the facilities we engineer worldwide.",
+    image: iso45001,
+  },
+];
+
+// Full-size optimized WebP for the lightbox view.
+const lightboxImages = await Promise.all(
+  certifications.map((cert) => getImage({ src: cert.image, format: 'webp' }))
+);
+---
+
+<section id="compliance" class="py-24 lg:py-32 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Header -->
+    <div class="text-center max-w-3xl mx-auto mb-16 lg:mb-20">
+      <div class="inline-flex items-center gap-3 mb-4">
+        <div class="w-10 h-px bg-accent-500"></div>
+        <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Compliance &amp; Standards</span>
+        <div class="w-10 h-px bg-accent-500"></div>
+      </div>
+      <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">
+        Certified to <span class="text-brand-500">International Standards</span>
+      </h2>
+      <p class="mt-5 text-slate-500 text-lg leading-relaxed">
+        Our integrated management system is independently certified, reflecting our dedication
+        to quality, environmental responsibility, and workplace safety.
+      </p>
+    </div>
+
+    <!-- Certification Cards -->
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+      {certifications.map((cert, i) => (
+        <div class="group bg-white border border-slate-200 hover:border-brand-500/40 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col">
+          <!-- Certificate photo -->
+          <button
+            type="button"
+            class="relative bg-slate-50 border-b border-slate-100 aspect-[3/4] overflow-hidden flex items-center justify-center cursor-pointer w-full"
+            data-cert-lightbox={lightboxImages[i].src}
+            aria-label={`View ${cert.code} certificate`}
+          >
+            <Image
+              src={cert.image}
+              alt={`${cert.code} certificate`}
+              loading="lazy"
+              widths={[400, 600, 800]}
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+              class="w-full h-full object-contain p-4 group-hover:scale-[1.02] transition-transform duration-500"
+            />
+            <!-- Zoom hint -->
+            <div class="absolute top-3 right-3 w-9 h-9 rounded-full bg-navy-900/70 text-white flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607zM10.5 7.5v6m3-3h-6" />
+              </svg>
+            </div>
+          </button>
+
+          <!-- Details -->
+          <div class="p-7 flex-1 flex flex-col">
+            <div class="inline-flex self-start items-center px-3 py-1 mb-4 rounded-full bg-brand-500/10 text-brand-600 text-xs font-bold tracking-wide">
+              {cert.code}
+            </div>
+            <h3 class="font-heading text-lg font-bold text-navy-900 mb-2">{cert.title}</h3>
+            <p class="text-slate-500 text-sm leading-relaxed">{cert.description}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <!-- Lightbox -->
+    <div id="cert-lightbox" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black/90 backdrop-blur-sm" role="dialog" aria-modal="true" aria-label="Certificate preview">
+      <!-- Close button -->
+      <button id="cert-lightbox-close" class="absolute top-6 right-6 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10" aria-label="Close preview">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+      </button>
+      <!-- Prev button -->
+      <button id="cert-lightbox-prev" class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10 p-2" aria-label="Previous certificate">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+      </button>
+      <!-- Next button -->
+      <button id="cert-lightbox-next" class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors duration-200 cursor-pointer z-10 p-2" aria-label="Next certificate">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
+      </button>
+      <!-- Image -->
+      <img id="cert-lightbox-img" src="" alt="Certificate preview" class="max-w-[90vw] max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+      <!-- Counter -->
+      <div id="cert-lightbox-counter" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/60 text-sm font-medium"></div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const lightbox = document.getElementById('cert-lightbox')!;
+  const lightboxImg = document.getElementById('cert-lightbox-img') as HTMLImageElement;
+  const lightboxCounter = document.getElementById('cert-lightbox-counter')!;
+  const items = document.querySelectorAll<HTMLElement>('[data-cert-lightbox]');
+  const sources = Array.from(items).map(el => el.dataset.certLightbox!);
+  // The thumbnails already painted in the cards — used for an instant preview.
+  const thumbs = Array.from(items).map(el => el.querySelector('img') as HTMLImageElement);
+  let currentIndex = 0;
+
+  // Track which full-size sources have finished downloading.
+  const loaded = new Set<string>();
+  function preload(src: string) {
+    if (loaded.has(src)) return;
+    const img = new Image();
+    img.onload = () => loaded.add(src);
+    img.src = src;
+  }
+  function preloadNeighbours() {
+    preload(sources[(currentIndex + 1) % sources.length]);
+    preload(sources[(currentIndex - 1 + sources.length) % sources.length]);
+  }
+
+  function open(index: number) {
+    currentIndex = index;
+    update();
+    lightbox.classList.remove('hidden');
+    lightbox.classList.add('flex');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function close() {
+    lightbox.classList.add('hidden');
+    lightbox.classList.remove('flex');
+    document.body.style.overflow = '';
+  }
+
+  function update() {
+    const index = currentIndex;
+    const fullSrc = sources[index];
+    lightboxCounter.textContent = `${index + 1} / ${sources.length}`;
+
+    if (loaded.has(fullSrc)) {
+      lightboxImg.src = fullSrc;
+    } else {
+      // Show the thumbnail the browser already painted, then upgrade to full-size.
+      lightboxImg.src = thumbs[index]?.currentSrc || thumbs[index]?.src || fullSrc;
+      const full = new Image();
+      full.onload = () => {
+        loaded.add(fullSrc);
+        if (currentIndex === index) lightboxImg.src = fullSrc;
+      };
+      full.src = fullSrc;
+    }
+    preloadNeighbours();
+  }
+
+  function next() {
+    currentIndex = (currentIndex + 1) % sources.length;
+    update();
+  }
+
+  function prev() {
+    currentIndex = (currentIndex - 1 + sources.length) % sources.length;
+    update();
+  }
+
+  items.forEach((item, i) => {
+    item.addEventListener('click', () => open(i));
+  });
+
+  document.getElementById('cert-lightbox-close')!.addEventListener('click', close);
+  document.getElementById('cert-lightbox-next')!.addEventListener('click', next);
+  document.getElementById('cert-lightbox-prev')!.addEventListener('click', prev);
+
+  lightbox.addEventListener('click', (e) => {
+    if (e.target === lightbox) close();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowRight') next();
+    if (e.key === 'ArrowLeft') prev();
+  });
+</script>

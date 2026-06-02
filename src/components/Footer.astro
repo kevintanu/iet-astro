@@ -28,6 +28,7 @@ const quickLinks = [
   { label: "About Us", href: "/#about" },
   { label: "Industries", href: "/#industries" },
   { label: "Projects", href: "/#projects" },
+  { label: "Certifications", href: "/#compliance" },
   { label: "Contact", href: "/#contact" },
 ];
 ---
@@ -46,13 +47,13 @@ const quickLinks = [
           Leading industrial engineering consultant providing comprehensive FEED, Detail Engineering, 
           and EPCM support solutions for the energy and process industries.
         </p>
-        <div class="flex items-center gap-2">
-          <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
-            ASME
-          </div>
-          <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
-            API
-          </div>
+        <p class="text-slate-500 text-xs font-semibold uppercase tracking-wider mb-3">Certified &amp; Compliant</p>
+        <div class="flex flex-wrap items-center gap-2">
+          {["ISO 9001:2015", "ISO 14001:2015", "ISO 45001:2018", "ASME", "API"].map(badge => (
+            <div class="px-3 py-1.5 bg-white/5 border border-white/10 rounded text-slate-400 text-xs font-medium">
+              {badge}
+            </div>
+          ))}
         </div>
       </div>
 
@@ -110,7 +111,7 @@ const quickLinks = [
         &copy; 2020–{new Date().getFullYear()} PT. Indo Energy Tekniko. All rights reserved.
       </p>
       <div class="flex items-center gap-6">
-        <span class="text-slate-600 text-xs">Site by Kevin T</span>
+        <span class="text-slate-600 text-xs">Site by <a href="https://www.kevintanudjaja.com" target="_blank" rel="noopener noreferrer" class="hover:text-slate-400 transition-colors duration-200 cursor-pointer">Kevin T</a></span>
         <a href="/privacy-policy" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Privacy Policy</a>
         <a href="/terms-of-service" class="text-slate-600 hover:text-slate-400 text-xs transition-colors duration-200 cursor-pointer">Terms of Service</a>
       </div>

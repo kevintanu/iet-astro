@@ -1,38 +1,59 @@
 ---
-const projects = [
-  "/projects/001_pdms-768x404.jpg",
-  "/projects/022_polymerization_plant-768x386.jpg",
-  "/projects/003_coalhandling-768x396.jpg",
-  "/projects/004_chemicalplantsg-768x411.jpg",
-  "/projects/005_powerplantid-768x409.jpg",
-  "/projects/006_3dplant-768x385.jpg",
-  "/projects/007_pidconv-768x375.jpg",
-  "/projects/008_electricalcable-768x337.jpg",
-  "/projects/009_skidinplace-768x353.jpg",
-  "/projects/010_circularplatform-768x416.jpg",
-  "/projects/011_analysis_design-768x406.jpg",
-  "/projects/012_structural_design-768x414.jpg",
-  "/projects/013_mechanical_design-768x417.jpg",
-  "/projects/014_pipe_stress_analysis-768x403.jpg",
-  "/projects/015_skid_ga-768x429.jpg",
-  "/projects/016_typical_skid-768x416.jpg",
-  "/projects/017_centrifugal_pump-768x374.jpg",
-  "/projects/018_metering_skid_design-768x413.jpg",
-  "/projects/018_metering_skid_detailing-768x392.jpg",
-  "/projects/019_waster_water_treatment-768x408.jpg",
-  "/projects/020_waster_water_treatment-768x420.jpg",
-  "/projects/021_tank_farm_area-768x406.jpg",
-  "/projects/002_uaecad-768x411.jpg",
-  "/projects/023_coal_handling_3d-768x396.jpg",
-  "/projects/024.png",
-  "/projects/025.png",
-  "/projects/026.png",
-  "/projects/027.png",
-  "/projects/028.png",
-  "/projects/029.png",
-  "/projects/030.png",
-  "/projects/031.png",
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Eagerly import every project image so Astro can optimize them at build time.
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+  '../assets/projects/*.{jpg,jpeg,png}',
+  { eager: true }
+);
+
+// Map by filename for easy lookup while keeping our curated display order.
+const byName = new Map<string, ImageMetadata>(
+  Object.entries(imageModules).map(([path, mod]) => [path.split('/').pop()!, mod.default])
+);
+
+const order = [
+  "001_pdms-768x404.jpg",
+  "022_polymerization_plant-768x386.jpg",
+  "003_coalhandling-768x396.jpg",
+  "004_chemicalplantsg-768x411.jpg",
+  "005_powerplantid-768x409.jpg",
+  "006_3dplant-768x385.jpg",
+  "007_pidconv-768x375.jpg",
+  "008_electricalcable-768x337.jpg",
+  "009_skidinplace-768x353.jpg",
+  "010_circularplatform-768x416.jpg",
+  "011_analysis_design-768x406.jpg",
+  "012_structural_design-768x414.jpg",
+  "013_mechanical_design-768x417.jpg",
+  "014_pipe_stress_analysis-768x403.jpg",
+  "015_skid_ga-768x429.jpg",
+  "016_typical_skid-768x416.jpg",
+  "017_centrifugal_pump-768x374.jpg",
+  "018_metering_skid_design-768x413.jpg",
+  "018_metering_skid_detailing-768x392.jpg",
+  "019_waster_water_treatment-768x408.jpg",
+  "020_waster_water_treatment-768x420.jpg",
+  "021_tank_farm_area-768x406.jpg",
+  "002_uaecad-768x411.jpg",
+  "023_coal_handling_3d-768x396.jpg",
+  "024.png",
+  "025.png",
+  "026.png",
+  "027.png",
+  "028.png",
+  "029.png",
+  "030.png",
+  "031.png",
 ];
+
+const projects = order.map((name) => byName.get(name)!).filter(Boolean);
+
+// Full-size optimized WebP for the lightbox view.
+const lightboxImages = await Promise.all(
+  projects.map((img) => getImage({ src: img, format: 'webp' }))
+);
 ---
 
 <section id="projects" class="py-24 lg:py-32 bg-white">
@@ -55,11 +76,13 @@ const projects = [
 
     <!-- Masonry Grid -->
     <div class="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
-      {projects.map((src, i) => (
-        <div class="break-inside-avoid overflow-hidden rounded-lg group cursor-pointer" data-lightbox={src}>
-          <img
-            src={src}
+      {projects.map((img, i) => (
+        <div class="break-inside-avoid overflow-hidden rounded-lg group cursor-pointer" data-lightbox={lightboxImages[i].src}>
+          <Image
+            src={img}
             alt={`Engineering project ${i + 1}`}
+            layout="constrained"
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
             loading={i < 6 ? "eager" : "lazy"}
           />
@@ -104,7 +127,22 @@ const projects = [
   const lightboxCounter = document.getElementById('lightbox-counter')!;
   const items = document.querySelectorAll<HTMLElement>('[data-lightbox]');
   const sources = Array.from(items).map(el => el.dataset.lightbox!);
+  // The thumbnails already painted in the grid — used for an instant preview.
+  const thumbs = Array.from(items).map(el => el.querySelector('img') as HTMLImageElement);
   let currentIndex = 0;
+
+  // Track which full-size sources have finished downloading.
+  const loaded = new Set<string>();
+  function preload(src: string) {
+    if (loaded.has(src)) return;
+    const img = new Image();
+    img.onload = () => loaded.add(src);
+    img.src = src;
+  }
+  function preloadNeighbours() {
+    preload(sources[(currentIndex + 1) % sources.length]);
+    preload(sources[(currentIndex - 1 + sources.length) % sources.length]);
+  }
 
   function open(index: number) {
     currentIndex = index;
@@ -121,8 +159,26 @@ const projects = [
   }
 
   function update() {
-    lightboxImg.src = sources[currentIndex];
-    lightboxCounter.textContent = `${currentIndex + 1} / ${sources.length}`;
+    const index = currentIndex;
+    const fullSrc = sources[index];
+    lightboxCounter.textContent = `${index + 1} / ${sources.length}`;
+
+    if (loaded.has(fullSrc)) {
+      // Full-size already cached — show it straight away.
+      lightboxImg.src = fullSrc;
+    } else {
+      // Show the thumbnail the browser already painted for an instant preview,
+      // then upgrade to the full-size image once it finishes downloading.
+      lightboxImg.src = thumbs[index]?.currentSrc || thumbs[index]?.src || fullSrc;
+      const full = new Image();
+      full.onload = () => {
+        loaded.add(fullSrc);
+        // Only swap if the user is still viewing this image.
+        if (currentIndex === index) lightboxImg.src = fullSrc;
+      };
+      full.src = fullSrc;
+    }
+    preloadNeighbours();
   }
 
   function next() {
