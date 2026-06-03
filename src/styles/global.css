@@ -1,9 +1,10 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
+/* Fonts are self-hosted via Fontsource — imported in Layout.astro
+   (@fontsource-variable/plus-jakarta-sans, @fontsource-variable/dm-sans). */
 @theme {
-  --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-body: 'DM Sans', system-ui, sans-serif;
+  --font-heading: 'Plus Jakarta Sans Variable', system-ui, sans-serif;
+  --font-body: 'DM Sans Variable', system-ui, sans-serif;
 
   --color-navy-950: #040B18;
   --color-navy-900: #0B1426;
