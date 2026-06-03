@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import logo from '../../assets/logo.png';
+
+const LP_URL = "/lp/offshore-piping-stress-analysis-australia";
+
+// Conversion pages should not be indexed.
+---
+
+<Layout
+  title="Thank You — We've Received Your Request | IET"
+  description="Thank you. Your piping stress analysis / CAESAR II enquiry has been received. A senior engineer will reply within 24 business hours."
+  robots="noindex, follow"
+>
+  <main class="min-h-screen bg-navy-950 relative overflow-hidden flex items-center justify-center px-4 py-20">
+    <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="absolute top-0 right-0 w-[700px] h-[700px] bg-brand-600/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3"></div>
+    <div class="absolute bottom-0 left-0 w-[500px] h-[500px] bg-accent-500/[0.06] rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4"></div>
+
+    <div class="relative max-w-xl w-full text-center">
+      <a href="/" class="inline-flex items-center gap-3 mb-10">
+        <img src={logo.src} alt="Indo Energy Tekniko" class="h-9 w-auto" />
+        <span class="font-heading text-white font-bold text-sm leading-tight">PT. Indo Energy<br/>Tekniko</span>
+      </a>
+
+      <div class="w-20 h-20 mx-auto mb-8 rounded-full bg-success/15 border border-success/30 flex items-center justify-center">
+        <svg class="w-10 h-10 text-success" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+      </div>
+
+      <h1 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">
+        Thank you — your request is in.
+      </h1>
+      <p class="text-slate-400 text-lg leading-relaxed mb-10">
+        A senior engineer is reviewing your scope and will reply with a fixed-fee quote and timeline within <strong class="text-white">24 business hours</strong>. Keep an eye on your inbox (and your spam folder, just in case).
+      </p>
+
+      <div class="bg-white/5 border border-white/10 rounded-2xl p-6 mb-8">
+        <p class="text-slate-400 text-sm">In the meantime, take a look at our work and credentials on the
+          <a href="/" class="text-brand-400 hover:text-brand-300 underline underline-offset-2 transition-colors">main IET website</a>.</p>
+      </div>
+
+      <a href={LP_URL} class="text-slate-500 hover:text-slate-300 text-sm transition-colors">← Back to the page</a>
+    </div>
+  </main>
+
+  <!-- Google Ads / GA4 conversion tracking -->
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    // GTM picks this event up to fire the Google Ads "Lead" conversion.
+    window.dataLayer.push({ event: "generate_lead", lead_type: "lp_piping_form" });
+
+    // If you use gtag directly instead of GTM, uncomment and set your IDs:
+    // gtag('event', 'conversion', { send_to: 'AW-XXXXXXXXX/XXXXXXXX' });
+  </script>
+</Layout>
