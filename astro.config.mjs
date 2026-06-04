@@ -11,7 +11,14 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: "https://www.indoenergytekniko.com",
-  integrations: [react(), sitemap()],
+  integrations: [
+    react(),
+    // Exclude /lp/* ad landing pages from the sitemap — they're noindex,
+    // for paid campaigns only, and must not be surfaced for organic SEO.
+    sitemap({
+      filter: (page) => !page.includes('/lp/'),
+    }),
+  ],
 
   vite: {
     plugins: [tailwindcss()]
