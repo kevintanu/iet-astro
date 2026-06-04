@@ -33,16 +33,20 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const utmTerm = get("utm_term");
     const gclid = get("gclid");
 
-    // Required fields. On failure, bounce back to the form with an error flag.
+    // Which landing page / ad group this lead came from (hidden field on the LP).
+    const lpSlug = get("lp_slug").replace(/[^a-z0-9-]/g, "");
+    const lpPath = lpSlug ? `/lp/${lpSlug}` : "/lp/offshore-piping-stress-analysis-australia";
+
+    // Required fields. On failure, bounce back to the same form with an error flag.
     if (!name || !email || !company) {
-      return redirect("/lp/offshore-piping-stress-analysis-australia?error=1#lead", 303);
+      return redirect(`${lpPath}?error=1#lead`, 303);
     }
 
     // --- Discord notification --------------------------------------------
     const discordWebhook = import.meta.env.DISCORD_WEBHOOK_URL;
     if (discordWebhook) {
       const embed = {
-        title: "🛢️ New Piping/Stress Analysis Lead (AU LP)",
+        title: "📩 New Lead (AU LP)",
         color: 0xd97706, // accent-500
         fields: [
           { name: "Name", value: name, inline: true },
@@ -52,6 +56,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
           { name: "Location", value: location || "—", inline: true },
           { name: "Service", value: service || "—", inline: true },
           { name: "Project details", value: message || "—" },
+          { name: "Landing page", value: lpSlug || "—", inline: true },
           { name: "Source", value: `${utmSource || "direct"} / ${utmMedium || "—"}`, inline: true },
           { name: "Campaign", value: utmCampaign || "—", inline: true },
           { name: "Keyword", value: utmTerm || "—", inline: true },
@@ -79,7 +84,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     if (telegramToken && telegramChatId) {
       const lines = [
-        `🛢️ *New Piping/Stress Analysis Lead* (AU LP)`,
+        `📩 *New Lead* (AU LP)`,
         ``,
         `*Name:* ${name}`,
         `*Company:* ${company}`,
@@ -91,6 +96,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
         `*Project details:*`,
         message || "—",
         ``,
+        `*Landing page:* ${lpSlug || "—"}`,
         `*Source:* ${utmSource || "direct"} / ${utmMedium || "—"}`,
         `*Campaign:* ${utmCampaign || "—"}`,
         `*Keyword:* ${utmTerm || "—"}`,

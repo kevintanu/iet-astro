@@ -2,100 +2,28 @@
 import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 import logo from '../../assets/logo.png';
-import pipeStress from '../../assets/projects/014_pipe_stress_analysis-768x403.jpg';
-import analysisDesign from '../../assets/projects/011_analysis_design-768x406.jpg';
-import meteringSkid from '../../assets/projects/018_metering_skid_design-768x413.jpg';
-import skidGa from '../../assets/projects/015_skid_ga-768x429.jpg';
+import { CAMPAIGNS } from '../../data/lpCampaigns';
 
-// --- Campaign config (edit per campaign) ---------------------------------
-// Single conversion goal: the lead form. No WhatsApp on this page.
-const PAGE_TITLE =
-  "Outsource Piping Stress Analysis & CAESAR II Services | Australia | IET";
-const PAGE_DESCRIPTION =
-  "Offshore piping design outsourcing for Perth & Brisbane engineering teams. CAESAR II piping analysis service, ASME B31.3 compliance review, and pressure vessel engineering design outsourcing from ISO-certified professional engineers.";
+// Dynamic Google Ads landing page. Each ad group is one entry in
+// src/data/lpCampaigns.ts, keyed by slug → /lp/<slug>. Pages are prerendered
+// at build time (static output) — one route per CAMPAIGNS key.
+export function getStaticPaths() {
+  return Object.entries(CAMPAIGNS).map(([slug, campaign]) => ({
+    params: { slug },
+    props: { campaign },
+  }));
+}
 
-const certs = ["ISO 9001:2015", "ISO 14001:2015", "ISO 45001:2018", "ASME B31.3", "API"];
-
-const services = [
-  {
-    title: "CAESAR II Piping Analysis Service",
-    body: "Full pipe flexibility and stress analysis in CAESAR II — thermal, sustained, occasional, and dynamic load cases — with nozzle load checks, support optimisation, and clear, audit-ready reports your reviewers can sign off.",
-    icon: "M13 10V3L4 14h7v7l9-11h-7z",
-  },
-  {
-    title: "Outsource Piping Stress Analysis",
-    body: "Hand us the stress scope and reclaim your team's calendar. We deliver verified critical-line analysis and load summaries that drop straight into your project deliverables — no licence, no ramp-up, no overhead.",
-    icon: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z",
-  },
-  {
-    title: "ASME B31.3 Piping Compliance Review",
-    body: "Independent ASME B31.3 piping compliance review of layouts, wall thickness, and supports — plus B31.1, B31.4 and B31.8 where required — so your pressure piping is defensible before it reaches the client or regulator.",
-    icon: "M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z",
-  },
-  {
-    title: "Pressure Vessel Engineering Design Outsourcing",
-    body: "Pressure vessel engineering design outsourcing to ASME VIII Div 1/2 — shell and head sizing, nozzle reinforcement, and FEA — fully coordinated with your piping interfaces and offshore structural loads.",
-    icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4",
-  },
-  {
-    title: "Industrial Piping Design & 3D Layout",
-    body: "When your in-house industrial piping design layout overflow stalls milestones, our team takes routing, isometrics, and 3D modelling end-to-end — built around constructability and offshore weight and access constraints.",
-    icon: "M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10",
-  },
-  {
-    title: "Pressure Piping Design Consultant",
-    body: "Engage a senior pressure piping design consultant on demand — for an independent check, a second opinion on a tricky tie-in, or to lead a discipline package when your bid pipeline outpaces your bench.",
-    icon: "M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253",
-  },
-];
-
-const steps = [
-  { n: "01", t: "Send the scope", d: "Share your line list, P&IDs, isometrics or stress-critical lines. A senior engineer scopes it and quotes a fixed fee and timeline — usually same business day." },
-  { n: "02", t: "We engineer & check", d: "We run the CAESAR II analysis or piping design, with independent internal checking against ASME B31.3 and your project specs before anything reaches you." },
-  { n: "03", t: "Audit-ready delivery", d: "You receive native files plus a clean, stamped report — load cases, support details, and compliance statements ready to submit to your client or regulator." },
-  { n: "04", t: "Revisions & support", d: "Aligned to AWST/AEST hours, we turn around comments and revisions fast so your project stays on its critical path." },
-];
-
-const stats = [
-  { v: "20+", l: "Years professional engineering experience" },
-  { v: "ASME", l: "B31.3 / B31.1 / VIII compliance" },
-  { v: "AEST", l: "Aligned to Perth & Brisbane hours" },
-  { v: "24h", l: "Typical scope & quote turnaround" },
-];
-
-const faqs = [
-  {
-    q: "Why outsource piping stress analysis instead of hiring?",
-    a: "Demand for stress engineers is spiky. Outsourcing your piping stress analysis converts a fixed salary and a CAESAR II licence into a variable, per-project cost — you scale capacity up for a tender or shutdown and back down again, with no recruitment lead time.",
-  },
-  {
-    q: "Do you work to Australian and offshore project requirements?",
-    a: "Yes. We deliver piping design outsourcing for Australia-based EPC, operator and consultancy teams in Perth (WA) and Brisbane (QLD), working to ASME B31.3, AS standards on request, and client-specific offshore specifications.",
-  },
-  {
-    q: "Which software and codes do you use?",
-    a: "Our CAESAR II engineering services cover piping flexibility and stress analysis, with pressure vessel work to ASME VIII and independent ASME B31.3 piping compliance review. We deliver native files plus signed reports.",
-  },
-  {
-    q: "How do you protect our data and IP?",
-    a: "We work under NDA, on segregated project storage, and our ISO 9001 / 14001 / 45001 management systems govern document control, confidentiality, and quality checking on every deliverable.",
-  },
-  {
-    q: "What does a pressure piping design consultant engagement cost?",
-    a: "Most clients start with a single fixed-fee package — a stress analysis scope or a compliance review — so you can benchmark our quality and value before committing larger industrial piping design layout overflow work to us.",
-  },
-];
+const { slug } = Astro.params;
+const { campaign: c } = Astro.props;
 
 const error = Astro.url.searchParams.get("error");
+const year = new Date().getFullYear();
 ---
 
 <!-- Google Ads landing page only — excluded from organic SEO via noindex.
      Keyword-rich copy is retained for Google Ads relevance / Quality Score. -->
-<Layout
-  title={PAGE_TITLE}
-  description={PAGE_DESCRIPTION}
-  robots="noindex, nofollow"
->
+<Layout title={c.title} description={c.description} robots="noindex, nofollow">
   <!-- Minimal, leak-free LP header (no nav menu) -->
   <header class="absolute top-0 left-0 right-0 z-40">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
@@ -122,17 +50,15 @@ const error = Astro.url.searchParams.get("error");
           <div class="lg:col-span-7 space-y-7">
             <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
               <span class="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></span>
-              <span class="text-slate-400 text-xs font-medium tracking-wider uppercase">Indonesia-based engineers · Serving Perth (WA) &amp; Brisbane (QLD)</span>
+              <span class="text-slate-400 text-xs font-medium tracking-wider uppercase">{c.heroBadge}</span>
             </div>
 
             <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.08] tracking-tight">
-              Outsource Piping Stress Analysis to a
-              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500 pb-1">CAESAR II Engineering Team</span>
+              {c.heroTitle}
+              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500 pb-1">{c.heroTitleAccent}</span>
             </h1>
 
-            <p class="text-slate-300 text-lg lg:text-xl leading-relaxed max-w-xl">
-              We're an <strong class="text-white font-semibold">Indonesia-based team of designers and engineers</strong> delivering <strong class="text-white font-semibold">piping design outsourcing for Australia</strong> — CAESAR II piping analysis service, ASME B31.3 piping compliance review, and pressure vessel engineering design outsourcing to international codes. World-class deliverables, offshore rates, your timezone. Clear the backlog, protect the deadline, keep the margin.
-            </p>
+            <p class="text-slate-300 text-lg lg:text-xl leading-relaxed max-w-xl" set:html={c.heroIntroHtml} />
 
             <div class="flex flex-col sm:flex-row gap-4">
               <a href="#lead" data-cta="hero-form"
@@ -143,7 +69,7 @@ const error = Astro.url.searchParams.get("error");
             </div>
 
             <div class="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2">
-              {["No CAESAR II licence to buy", "Independent ASME B31.3 checking", "NDA & ISO-governed", "Fixed-fee per package"].map((t) => (
+              {c.heroChips.map((t) => (
                 <div class="flex items-center gap-2 text-slate-400 text-sm">
                   <svg class="w-4 h-4 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                   {t}
@@ -155,11 +81,11 @@ const error = Astro.url.searchParams.get("error");
           <!-- Hero visual -->
           <div class="lg:col-span-5">
             <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
-              <Image src={pipeStress} alt="CAESAR II pipe stress analysis model for an offshore piping system" class="w-full h-auto" loading="eager" />
+              <Image src={c.heroImage.src} alt={c.heroImage.alt} class="w-full h-auto" loading="eager" />
               <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
               <div class="absolute bottom-4 left-4 right-4 flex items-center gap-2 text-white text-xs font-medium tracking-wider uppercase">
                 <span class="w-2 h-2 bg-accent-500 rounded-full"></span>
-                CAESAR II Pipe Stress &amp; Flexibility Analysis
+                {c.heroImageCaption}
               </div>
             </div>
           </div>
@@ -171,8 +97,8 @@ const error = Astro.url.searchParams.get("error");
     <section class="bg-navy-900 border-y border-white/5 py-6">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
         <span class="text-slate-500 text-xs font-medium uppercase tracking-wider">Code-compliant &amp; certified:</span>
-        {certs.map((c) => (
-          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-slate-300 text-xs font-semibold">{c}</span>
+        {c.certs.map((cert) => (
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-slate-300 text-xs font-semibold">{cert}</span>
         ))}
       </div>
     </section>
@@ -184,12 +110,7 @@ const error = Astro.url.searchParams.get("error");
           <!-- Photo -->
           <div class="lg:col-span-4">
             <div class="aspect-square max-w-[260px] mx-auto lg:mx-0 overflow-hidden rounded-2xl border border-slate-200 shadow-lg bg-white">
-              <img
-                src="/team/aarti-sandhal.jpg"
-                alt="Aarti Sandhal — Director, PT. Indo Energy Tekniko"
-                class="w-full h-full object-cover"
-                loading="eager"
-              />
+              <img src={c.directorPhoto} alt={c.directorPhotoAlt} class="w-full h-full object-cover" loading="eager" />
             </div>
           </div>
           <!-- Quote -->
@@ -198,15 +119,12 @@ const error = Astro.url.searchParams.get("error");
             <svg class="w-10 h-10 text-brand-500/20 mb-4" fill="currentColor" viewBox="0 0 24 24">
               <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983z" />
             </svg>
-            <blockquote class="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-900 leading-snug mb-6">
-              When you outsource piping stress analysis to us, you deal directly with the engineers doing the work — an Indonesia-based team delivering
-              <span class="text-brand-500">CAESAR II and ASME B31.3 deliverables that are buildable, safe, and cost-effective</span> from day one.
-            </blockquote>
+            <blockquote class="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-900 leading-snug mb-6" set:html={c.directorQuoteHtml} />
             <div class="flex items-center gap-4">
               <div class="w-12 h-px bg-accent-500"></div>
               <div>
-                <div class="font-heading font-bold text-navy-900">Aarti Sandhal</div>
-                <div class="text-slate-500 text-sm">Director · PT. Indo Energy Tekniko (Indonesia)</div>
+                <div class="font-heading font-bold text-navy-900">{c.directorName}</div>
+                <div class="text-slate-500 text-sm">{c.directorTitle}</div>
               </div>
             </div>
           </div>
@@ -219,21 +137,13 @@ const error = Astro.url.searchParams.get("error");
       <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <div class="inline-flex items-center gap-3 mb-4 justify-center">
           <div class="w-10 h-px bg-accent-500"></div>
-          <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">The bottleneck</span>
+          <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.painEyebrow}</span>
           <div class="w-10 h-px bg-accent-500"></div>
         </div>
-        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6">
-          Is your <span class="text-brand-500">industrial piping design layout overflow</span> putting milestones at risk?
-        </h2>
-        <p class="text-slate-500 text-lg leading-relaxed max-w-3xl mx-auto mb-12">
-          Perth and Brisbane engineering teams win the work — then hit the wall on stress analysis capacity. Hiring takes months. Software licences sit idle between projects. And every late deliverable chips away at your schedule and your margin.
-        </p>
+        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6" set:html={c.painTitleHtml} />
+        <p class="text-slate-500 text-lg leading-relaxed max-w-3xl mx-auto mb-12">{c.painIntro}</p>
         <div class="grid sm:grid-cols-3 gap-6 text-left">
-          {[
-            { t: "Capacity overflow", d: "Your bid pipeline outpaces your bench, and critical stress lines sit in a queue while the schedule slips." },
-            { t: "Licence & overhead drag", d: "A CAESAR II seat and a senior stress engineer are expensive to carry through the quiet months between projects." },
-            { t: "Compliance exposure", d: "Without independent checking, ASME B31.3 non-conformances surface late — in client review or, worse, in the field." },
-          ].map((p) => (
+          {c.painCards.map((p) => (
             <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
               <div class="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center mb-4">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -252,17 +162,13 @@ const error = Astro.url.searchParams.get("error");
         <div class="max-w-3xl mb-14">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-px bg-accent-500"></div>
-            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">The solution</span>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.servicesEyebrow}</span>
           </div>
-          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-5">
-            A senior engineering bench, on demand — when you outsource piping design
-          </h2>
-          <p class="text-slate-500 text-lg leading-relaxed">
-            Plug a complete piping and pressure-equipment discipline into your project for as long as you need it. Fixed fee, audit-ready output, your specs and codes.
-          </p>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-5">{c.servicesTitle}</h2>
+          <p class="text-slate-500 text-lg leading-relaxed">{c.servicesIntro}</p>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((s) => (
+          {c.services.map((s) => (
             <div class="group p-7 bg-white border border-slate-200 rounded-2xl hover:border-brand-400 hover:shadow-xl hover:shadow-brand-500/5 transition-all">
               <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d={s.icon} /></svg>
@@ -286,7 +192,7 @@ const error = Astro.url.searchParams.get("error");
     <section class="py-16 bg-navy-950 relative overflow-hidden">
       <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600/10 rounded-full blur-[100px]"></div>
       <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
-        {stats.map((s) => (
+        {c.stats.map((s) => (
           <div class="text-center">
             <div class="font-heading text-3xl lg:text-4xl font-extrabold text-white mb-1">{s.v}</div>
             <div class="text-slate-400 text-sm">{s.l}</div>
@@ -303,16 +209,9 @@ const error = Astro.url.searchParams.get("error");
             <div class="w-10 h-px bg-accent-500"></div>
             <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Why IET</span>
           </div>
-          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6">
-            A pressure piping design consultant your reviewers will trust
-          </h2>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6">{c.whyTitle}</h2>
           <div class="space-y-6">
-            {[
-              { t: "Indonesia-based, built for Australian projects", d: "We're an Indonesian engineering firm, not an Australian one — that's the point. You get piping design outsourcing to ASME B31.3, AS standards on request, and the offshore specs your Perth and Brisbane clients demand, at offshore rates." },
-              { t: "Independent checking on every job", d: "Every CAESAR II model and layout is checked by a second senior engineer against code before it reaches you — so what you submit holds up under scrutiny." },
-              { t: "Margin-friendly, not corner-cutting", d: "Competitive offshore rates with international-quality, English-language deliverables. You protect schedule and margin without compromising the engineering." },
-              { t: "Timezone that works with yours", d: "We align to AWST/AEST hours so revisions and queries turn around within your working day, not after it." },
-            ].map((r) => (
+            {c.whyPoints.map((r) => (
               <div class="flex gap-4">
                 <div class="w-8 h-8 shrink-0 rounded-lg bg-success/10 text-success flex items-center justify-center mt-0.5">
                   <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
@@ -326,12 +225,12 @@ const error = Astro.url.searchParams.get("error");
           </div>
         </div>
         <div class="grid grid-cols-2 gap-4">
-          <Image src={analysisDesign} alt="Piping analysis and design deliverable" class="rounded-xl border border-slate-200 w-full h-auto" />
-          <Image src={meteringSkid} alt="Metering skid piping design and layout" class="rounded-xl border border-slate-200 w-full h-auto mt-8" />
-          <Image src={skidGa} alt="Skid general arrangement piping layout" class="rounded-xl border border-slate-200 w-full h-auto" />
+          <Image src={c.whyImages[0].src} alt={c.whyImages[0].alt} class="rounded-xl border border-slate-200 w-full h-auto" />
+          <Image src={c.whyImages[1].src} alt={c.whyImages[1].alt} class="rounded-xl border border-slate-200 w-full h-auto mt-8" />
+          <Image src={c.whyImages[2].src} alt={c.whyImages[2].alt} class="rounded-xl border border-slate-200 w-full h-auto" />
           <div class="rounded-xl bg-navy-900 border border-white/10 p-6 flex flex-col justify-center mt-8">
-            <div class="font-heading text-2xl font-extrabold text-white mb-1">CAESAR II</div>
-            <p class="text-slate-400 text-sm">engineering services delivered to global MNC clients across Oil &amp; Gas, power and process.</p>
+            <div class="font-heading text-2xl font-extrabold text-white mb-1">{c.whyCalloutTitle}</div>
+            <p class="text-slate-400 text-sm">{c.whyCalloutBody}</p>
           </div>
         </div>
       </div>
@@ -346,12 +245,10 @@ const error = Astro.url.searchParams.get("error");
             <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">How it works</span>
             <div class="w-10 h-px bg-accent-500"></div>
           </div>
-          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">
-            From scope to stamped report in four steps
-          </h2>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">{c.processTitle}</h2>
         </div>
         <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {steps.map((s) => (
+          {c.steps.map((s) => (
             <div class="p-7 bg-white border border-slate-200 rounded-2xl">
               <div class="font-heading text-3xl font-extrabold text-slate-200 mb-4">{s.n}</div>
               <h3 class="font-heading font-bold text-navy-900 mb-2">{s.t}</h3>
@@ -369,7 +266,7 @@ const error = Astro.url.searchParams.get("error");
           <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-navy-900 leading-tight">Frequently asked questions</h2>
         </div>
         <div class="space-y-4">
-          {faqs.map((f) => (
+          {c.faqs.map((f) => (
             <details class="group bg-slate-50 border border-slate-200 rounded-xl p-6">
               <summary class="flex items-center justify-between cursor-pointer list-none font-heading font-bold text-navy-900">
                 {f.q}
@@ -391,17 +288,13 @@ const error = Astro.url.searchParams.get("error");
         <div class="lg:pt-6">
           <div class="flex items-center gap-3 mb-4">
             <div class="w-10 h-px bg-accent-500"></div>
-            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Get your free quote</span>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.leadEyebrow}</span>
           </div>
-          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">
-            Send your scope. Get a fixed-fee quote within 24 hours.
-          </h2>
-          <p class="text-slate-400 text-lg leading-relaxed mb-8">
-            Tell us about your piping stress analysis, CAESAR II, ASME B31.3 review or pressure vessel scope. A senior engineer — not a salesperson — reviews it and replies with a clear fee and timeline. No obligation.
-          </p>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">{c.leadTitle}</h2>
+          <p class="text-slate-400 text-lg leading-relaxed mb-8">{c.leadIntro}</p>
 
           <div class="space-y-4 mb-8">
-            {["Reviewed by a chartered professional engineer", "NDA available before you share files", "Fixed fee — no surprise hourly creep"].map((t) => (
+            {c.leadBullets.map((t) => (
               <div class="flex items-center gap-3 text-slate-300">
                 <svg class="w-5 h-5 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
                 {t}
@@ -411,7 +304,7 @@ const error = Astro.url.searchParams.get("error");
 
           <div class="flex items-start gap-3 p-5 bg-white/5 border border-white/10 rounded-xl">
             <svg class="w-5 h-5 text-accent-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-            <p class="text-slate-400 text-sm">A senior engineer on our Indonesia-based team personally reviews every scope and replies within <strong class="text-white">24 business hours</strong>, aligned to Perth (AWST) and Brisbane (AEST) working days.</p>
+            <p class="text-slate-400 text-sm" set:html={c.leadNoteHtml} />
           </div>
         </div>
 
@@ -456,10 +349,9 @@ const error = Astro.url.searchParams.get("error");
                 <select id="location" name="location"
                   class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors cursor-pointer">
                   <option value="">Select location</option>
-                  <option value="Perth, WA">Perth, WA</option>
-                  <option value="Brisbane, QLD">Brisbane, QLD</option>
-                  <option value="Other Australia">Other (Australia)</option>
-                  <option value="International">International</option>
+                  {c.formLocationOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
                 </select>
               </div>
               <div>
@@ -467,11 +359,9 @@ const error = Astro.url.searchParams.get("error");
                 <select id="service" name="service"
                   class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors cursor-pointer">
                   <option value="">Select a service</option>
-                  <option value="CAESAR II Piping Stress Analysis">CAESAR II Piping Stress Analysis</option>
-                  <option value="ASME B31.3 Compliance Review">ASME B31.3 Compliance Review</option>
-                  <option value="Piping Design & 3D Layout">Piping Design &amp; 3D Layout</option>
-                  <option value="Pressure Vessel Design">Pressure Vessel Design</option>
-                  <option value="Other / Not sure">Other / Not sure</option>
+                  {c.formServiceOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -493,6 +383,7 @@ const error = Astro.url.searchParams.get("error");
             <input type="hidden" name="utm_campaign" />
             <input type="hidden" name="utm_term" />
             <input type="hidden" name="gclid" />
+            <input type="hidden" name="lp_slug" value={slug} />
 
             <button type="submit"
               class="w-full py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-accent-500/20 text-base">
@@ -516,7 +407,7 @@ const error = Astro.url.searchParams.get("error");
         <div class="flex items-center gap-5 text-slate-500 text-sm">
           <a href="/privacy-policy" class="hover:text-slate-300 transition-colors">Privacy</a>
           <a href="/terms-of-service" class="hover:text-slate-300 transition-colors">Terms</a>
-          <span>© {new Date().getFullYear()} IET</span>
+          <span>© {year} IET</span>
         </div>
       </div>
     </footer>
