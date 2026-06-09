@@ -2,6 +2,8 @@
 import "../styles/global.css";
 import "@fontsource-variable/plus-jakarta-sans";
 import "@fontsource-variable/dm-sans";
+import plusJakartaSansLatin from "@fontsource-variable/plus-jakarta-sans/files/plus-jakarta-sans-latin-wght-normal.woff2?url";
+import dmSansLatin from "@fontsource-variable/dm-sans/files/dm-sans-latin-wght-normal.woff2?url";
 
 interface Props {
 	title?: string;
@@ -28,6 +30,8 @@ const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? "GTM-XXXXXXX";
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="preload" href={plusJakartaSansLatin} as="font" type="font/woff2" crossorigin />
+		<link rel="preload" href={dmSansLatin} as="font" type="font/woff2" crossorigin />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		<meta name="description" content={description} />
