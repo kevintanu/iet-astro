@@ -13,11 +13,11 @@ const entry: LpEntry = {
     description:
       "Outsource CAD drafting services to an Indonesian engineering team serving the Netherlands. AutoCAD, SolidWorks & Revit/BIM drafting to EN/NEN/ISO standards — overnight turnaround, NDA + AVG/GDPR compliant, trusted by FrieslandCampina.",
 
-    heroBadge: "Indonesia-based drafting team · Trusted by FrieslandCampina · Serving the Netherlands",
+    heroBadge: "Indonesia-based drafting team · Engineering partner to FrieslandCampina's Indonesian operations · Serving the Netherlands",
     heroTitle: "Outsource CAD Drafting Services to a",
     heroTitleAccent: "Remote AutoCAD, SolidWorks & BIM Team",
     heroIntroHtml:
-      'We\'re an <strong class="text-white font-semibold">Indonesia-based engineering and drafting team</strong> — trusted by <strong class="text-white font-semibold">FrieslandCampina (PT Kievit Indonesia)</strong> — delivering <strong class="text-white font-semibold">CAD drafting services for the Netherlands</strong> to EN, NEN and ISO standards. AutoCAD, SolidWorks and Revit/BIM production. Send your markups at 5 PM Amsterdam time; completed drawings are waiting in your inbox the next morning.',
+      'We\'re an <strong class="text-white font-semibold">Indonesia-based engineering and drafting team</strong> — an engineering partner to <strong class="text-white font-semibold">FrieslandCampina (PT Kievit Indonesia)</strong> — delivering <strong class="text-white font-semibold">outsource CAD drafting services for the Netherlands</strong> to EN, NEN and ISO standards. Remote drafting services and engineering outsourcing across AutoCAD, SolidWorks and Revit/BIM. Send your markups at 5 PM Amsterdam time; completed drawings are waiting in your inbox the next morning.',
     heroChips: [
       "AutoCAD · SolidWorks · Revit · BIM",
       "European EN / NEN / ISO standards",
@@ -43,11 +43,11 @@ const entry: LpEntry = {
     painTitleHtml:
       'Is <span class="text-brand-500">drafting overhead and slow revision cycles</span> eating into your engineering margin?',
     painIntro:
-      "Dutch engineering firms win the design work — then absorb the drafting cost at local rates. A CAD drafter in the Netherlands costs €3,500–€5,500 per month in salary alone, plus AutoCAD or SolidWorks licences and overhead. And when markups arrive at 5 PM Amsterdam time, they sit until the next morning anyway.",
+      "Dutch engineering firms win the design work — then absorb the drafting cost at local rates. A full-time CAD drafter in the Netherlands runs a significant monthly salary, plus AutoCAD or SolidWorks licences and overhead. And when markups arrive at 5 PM Amsterdam time, they sit until the next morning anyway.",
     painCards: [
       {
         t: "High in-house drafting cost",
-        d: "Dutch engineering rates are among the highest in Europe. Outsourcing CAD production offshore converts a fixed salary and licence overhead into a per-project variable cost — you pay for output, not headcount.",
+        d: "Dutch engineering rates are among the highest in Europe. CAD outsourcing converts a fixed salary and licence overhead into a per-project variable cost — you pay for output, not headcount.",
       },
       {
         t: "Overnight markups go nowhere",
@@ -60,9 +60,9 @@ const entry: LpEntry = {
     ],
 
     servicesEyebrow: "The solution",
-    servicesTitle: "A remote drafting team that works while you sleep — to your European standards",
+    servicesTitle: "Engineering design and drafting services — a remote team that works while you sleep",
     servicesIntro:
-      "Plug a complete CAD drafting and BIM modeling team into your project. Fixed fee, EN/NEN/ISO-compliant output, your CAD templates and title blocks — delivered overnight.",
+      "Plug a complete CAD drafting and BIM modeling team into your project — full engineering outsourcing services, from outsourcing drawings to coordinated 3D models. Fixed fee, EN/NEN/ISO-compliant output, your CAD templates and title blocks — delivered overnight.",
     services: [
       {
         title: "AutoCAD Drafting Services",
@@ -70,8 +70,8 @@ const entry: LpEntry = {
         icon: ICONS.pencil,
       },
       {
-        title: "SolidWorks Drafting & 3D Modeling",
-        body: "Mechanical parts, assemblies and fabrication drawings in SolidWorks — GD&T to ISO/EN standards, BOMs, exploded views and shop-ready SLDDRW deliverables for your engineering or manufacturing workflow.",
+        title: "SolidWorks Outsourcing & 3D Modeling",
+        body: "SolidWorks outsourcing for mechanical parts, assemblies and fabrication drawings — GD&T to ISO/EN standards, BOMs, exploded views and shop-ready SLDDRW deliverables for your engineering or manufacturing workflow.",
         icon: ICONS.cube,
       },
       {
@@ -158,7 +158,7 @@ const entry: LpEntry = {
     faqs: [
       {
         q: "How much do CAD drafters charge per month?",
-        a: "A full-time CAD drafter in the Netherlands typically costs €3,500–€5,500/month gross salary, plus AutoCAD or SolidWorks licence fees and employer overhead — often €5,000–€7,500/month total. With IET, you pay per drawing package or per project scope, with no retainer, no licences and no overhead. Equivalent output typically runs 40–60% below in-house cost, and you only pay when you have work to do.",
+        a: "As a guide, a full-time CAD drafter in the Netherlands is generally in the region of €3,500–€5,500/month gross salary, before AutoCAD or SolidWorks licence fees and employer overhead. With IET, there's no monthly salary at all — you pay per drawing package or per project scope, with no retainer, no licences and no idle overhead, so you only pay when you actually have work to do. Send us your scope and we'll quote a fixed fee against it.",
       },
       {
         q: "What CAD drawing software do you use?",

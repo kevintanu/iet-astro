@@ -36,6 +36,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     // Which landing page / ad group this lead came from (hidden field on the LP).
     const lpSlug = get("lp_slug").replace(/[^a-z0-9-]/g, "");
     const lpPath = lpSlug ? `/lp/${lpSlug}` : "/lp/offshore-piping-stress-analysis-australia";
+    // Human label for the notifications (was hardcoded "AU / Piping LP").
+    const lpLabel = lpSlug || "unknown LP";
 
     // Required fields. On failure, bounce back to the same form with an error flag.
     if (!name || !email || !company) {
@@ -46,7 +48,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const discordWebhook = import.meta.env.DISCORD_WEBHOOK_URL;
     if (discordWebhook) {
       const embed = {
-        title: "📩 New Lead (AU LP)",
+        title: `📩 New Lead — ${lpLabel}`,
         color: 0xd97706, // accent-500
         fields: [
           { name: "Name", value: name, inline: true },
@@ -68,7 +70,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       const discordRes = await fetch(discordWebhook, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username: "IET Ads — Piping LP", embeds: [embed] }),
+        body: JSON.stringify({ username: "IET Ads — Landing Page", embeds: [embed] }),
       });
 
       if (!discordRes.ok) {
@@ -84,7 +86,7 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     if (telegramToken && telegramChatId) {
       const lines = [
-        `📩 *New Lead* (AU LP)`,
+        `📩 *New Lead* — ${lpLabel}`,
         ``,
         `*Name:* ${name}`,
         `*Company:* ${company}`,
