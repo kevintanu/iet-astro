@@ -128,7 +128,8 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     // PRG: redirect to thank-you regardless of notification outcome so the
     // user always lands on a clean confirmation (the lead is logged above).
-    return redirect(thankYouUrl, 303);
+    const destination = lpSlug ? `${thankYouUrl}?from=${lpSlug}` : thankYouUrl;
+    return redirect(destination, 303);
   } catch (error) {
     console.error("LP lead error:", error);
     return redirect(thankYouUrl, 303);

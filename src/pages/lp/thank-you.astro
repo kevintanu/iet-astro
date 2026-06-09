@@ -2,7 +2,8 @@
 import Layout from '../../layouts/Layout.astro';
 import logo from '../../assets/logo.png';
 
-const LP_URL = "/lp/offshore-piping-stress-analysis-australia";
+const fromSlug = Astro.url.searchParams.get("from")?.replace(/[^a-z0-9-]/g, "") ?? "";
+const LP_URL = fromSlug ? `/lp/${fromSlug}` : "/lp/offshore-piping-stress-analysis-australia";
 
 // Conversion pages should not be indexed.
 ---

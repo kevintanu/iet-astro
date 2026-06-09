@@ -6,10 +6,11 @@ import type { LpCampaign, LpEntry } from "./lp/_shared";
 import pipingStressAnalysis from "./lp/piping-stress-analysis";
 import cadDrafting from "./lp/cad-drafting";
 import steelDetailing from "./lp/steel-detailing";
+import cadDraftingNetherlands from "./lp/cad-drafting-netherlands";
 
 export type { LpCampaign } from "./lp/_shared";
 
-const ENTRIES: LpEntry[] = [pipingStressAnalysis, cadDrafting, steelDetailing];
+const ENTRIES: LpEntry[] = [pipingStressAnalysis, cadDrafting, steelDetailing, cadDraftingNetherlands];
 
 export const CAMPAIGNS: Record<string, LpCampaign> = Object.fromEntries(
   ENTRIES.map((e) => [e.slug, e.campaign])
