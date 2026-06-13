@@ -37,6 +37,8 @@ const GTM_ID = import.meta.env.PUBLIC_GTM_ID ?? "GTM-XXXXXXX";
 		<meta name="description" content={description} />
 		<meta name="robots" content={robots} />
 		{canonical && <link rel="canonical" href={canonical} />}
+		<!-- Pages can inject page-specific head tags (e.g. JSON-LD, hreflang) here. -->
+		<slot name="head" />
 		<meta property="og:title" content={title} />
 		<meta property="og:description" content={description} />
 		<meta property="og:type" content="website" />
