@@ -9,11 +9,14 @@ import logo from '../../assets/logo.png';
 import { getCampaign } from '../../data/lpCampaigns';
 
 const fromSlug = Astro.url.searchParams.get("from")?.replace(/[^a-z0-9-]/g, "") ?? "";
-// Only trust a slug that maps to a real campaign; otherwise fall back.
+// Organic /nl/ SEO pages pass an explicit return path (validated as a safe
+// internal path); /lp/ ad pages don't and resolve via the campaign registry.
+const rawTo = Astro.url.searchParams.get("to") ?? "";
+const toPath = /^\/[a-z0-9/-]+$/.test(rawTo) ? rawTo : "";
 const isKnown = !!getCampaign(fromSlug);
-const LP_URL = isKnown ? `/lp/${fromSlug}` : "/lp/offshore-piping-stress-analysis-australia";
+const LP_URL = toPath || (isKnown ? `/lp/${fromSlug}` : "/lp/offshore-piping-stress-analysis-australia");
 // Per-campaign conversion label for GTM / Google Ads (was hardcoded to piping).
-const leadType = isKnown ? `lp_${fromSlug}` : "lp_unknown";
+const leadType = toPath ? `nl_${fromSlug}` : isKnown ? `lp_${fromSlug}` : "lp_unknown";
 
 // Conversion pages should not be indexed.
 ---

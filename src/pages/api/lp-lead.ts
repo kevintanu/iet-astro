@@ -35,7 +35,12 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     // Which landing page / ad group this lead came from (hidden field on the LP).
     const lpSlug = get("lp_slug").replace(/[^a-z0-9-]/g, "");
-    const lpPath = lpSlug ? `/lp/${lpSlug}` : "/lp/offshore-piping-stress-analysis-australia";
+    // Organic /nl/ SEO pages live outside /lp/ and send an explicit return path
+    // (validated as a safe internal path). /lp/ ad pages omit it → unchanged.
+    const rawReturn = get("return_path");
+    const returnPath = /^\/[a-z0-9/-]+$/.test(rawReturn) ? rawReturn : "";
+    const lpPath =
+      returnPath || (lpSlug ? `/lp/${lpSlug}` : "/lp/offshore-piping-stress-analysis-australia");
     // Human label for the notifications (was hardcoded "AU / Piping LP").
     const lpLabel = lpSlug || "unknown LP";
 
@@ -130,7 +135,9 @@ export const POST: APIRoute = async ({ request, redirect }) => {
 
     // PRG: redirect to thank-you regardless of notification outcome so the
     // user always lands on a clean confirmation (the lead is logged above).
-    const destination = lpSlug ? `${thankYouUrl}?from=${lpSlug}` : thankYouUrl;
+    const destination = lpSlug
+      ? `${thankYouUrl}?from=${lpSlug}${returnPath ? `&to=${encodeURIComponent(returnPath)}` : ""}`
+      : thankYouUrl;
     return redirect(destination, 303);
   } catch (error) {
     console.error("LP lead error:", error);
