@@ -1,0 +1,574 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navigation from '../../components/Navigation.astro';
+import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+import { SEO_PAGES } from '../../data/seoPages';
+
+// Organic SEO pages targeting the Dutch market. Each page is one entry in
+// src/data/seoPages.ts, keyed by slug → /nl/<slug>. Pages are prerendered at
+// build time (static output), indexable, and included in the sitemap.
+// Distinct from src/pages/lp/[slug].astro, which is noindex paid-ad pages.
+export function getStaticPaths() {
+  return Object.entries(SEO_PAGES).map(([slug, page]) => ({
+    params: { slug },
+    props: { page },
+  }));
+}
+
+const { slug } = Astro.params;
+const { page: c } = Astro.props;
+
+const error = Astro.url.searchParams.get("error");
+
+const SITE = "https://www.indoenergytekniko.com";
+const canonical = `${SITE}/nl/${slug}`;
+
+// Structured data — BreadcrumbList, Service (with Organization provider), FAQPage.
+const organization = {
+  "@type": "Organization",
+  name: "PT. Indo Energy Tekniko",
+  url: SITE,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "Kirana Two Office Tower, Level 10-A, Jl. Boulevard Timur No. 88, Kelapa Gading",
+    addressLocality: "Jakarta Utara",
+    postalCode: "14240",
+    addressCountry: "ID",
+  },
+};
+
+const jsonLd = [
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: "Home", item: SITE },
+      { "@type": "ListItem", position: 2, name: c.breadcrumbLabel, item: canonical },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: c.h1,
+    serviceType: c.serviceType,
+    description: c.description,
+    areaServed: { "@type": "Country", name: "Netherlands" },
+    provider: organization,
+    url: canonical,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: c.faqs.map((f) => ({
+      "@type": "Question",
+      name: f.q,
+      acceptedAnswer: { "@type": "Answer", text: f.a },
+    })),
+  },
+];
+---
+
+<Layout title={c.title} description={c.description} canonical={canonical}>
+  <Fragment slot="head">
+    {c.metaKeywords && <meta name="keywords" content={c.metaKeywords} />}
+    <link rel="alternate" hreflang="en-nl" href={canonical} />
+    <link rel="alternate" hreflang="x-default" href={canonical} />
+    {jsonLd.map((obj) => (
+      <script type="application/ld+json" is:inline set:html={JSON.stringify(obj)} />
+    ))}
+  </Fragment>
+
+  <Navigation />
+
+  <main>
+    <!-- HERO -->
+    <section class="relative overflow-hidden bg-navy-950">
+      <div class="absolute inset-0 opacity-[0.04]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+      <div class="absolute top-0 right-0 w-[800px] h-[800px] bg-brand-600/10 rounded-full blur-[120px] translate-x-1/3 -translate-y-1/3"></div>
+      <div class="absolute bottom-0 left-0 w-[600px] h-[600px] bg-accent-500/[0.06] rounded-full blur-[100px] -translate-x-1/4 translate-y-1/4"></div>
+
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 lg:pt-40 lg:pb-28">
+        <!-- Breadcrumb -->
+        <nav aria-label="Breadcrumb" class="mb-8">
+          <ol class="flex items-center gap-2 text-sm text-slate-400">
+            <li><a href="/" class="hover:text-slate-200 transition-colors">Home</a></li>
+            <li aria-hidden="true" class="text-slate-600">/</li>
+            <li class="text-slate-300" aria-current="page">{c.breadcrumbLabel}</li>
+          </ol>
+        </nav>
+
+        <div class="grid lg:grid-cols-12 gap-12 items-center">
+          <div class="lg:col-span-7 space-y-7">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full">
+              <span class="w-2 h-2 bg-accent-500 rounded-full animate-pulse"></span>
+              <span class="text-slate-400 text-xs font-medium tracking-wider uppercase">{c.heroBadge}</span>
+            </div>
+
+            <h1 class="font-heading text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white leading-[1.08] tracking-tight">
+              {c.h1}
+              <span class="block text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-brand-500 pb-1">{c.heroTitleAccent}</span>
+            </h1>
+
+            <p class="text-slate-300 text-lg lg:text-xl leading-relaxed max-w-xl" set:html={c.heroIntroHtml} />
+
+            <div class="flex flex-col sm:flex-row gap-4">
+              <a href="#lead" data-cta="hero-form"
+                 class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all hover:shadow-xl hover:shadow-accent-500/20 text-base">
+                Get a Free Scoping Quote
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </a>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2">
+              {c.heroChips.map((t) => (
+                <div class="flex items-center gap-2 text-slate-400 text-sm">
+                  <svg class="w-4 h-4 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                  {t}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <!-- Hero visual -->
+          <div class="lg:col-span-5">
+            <div class="relative rounded-2xl overflow-hidden border border-white/10 shadow-2xl">
+              <Image src={c.heroImage.src} alt={c.heroImage.alt} class="w-full h-auto" loading="eager" />
+              <div class="absolute inset-0 bg-gradient-to-t from-navy-950/70 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 right-4 flex items-center gap-2 text-white text-xs font-medium tracking-wider uppercase">
+                <span class="w-2 h-2 bg-accent-500 rounded-full"></span>
+                {c.heroImageCaption}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST BAR -->
+    <section class="bg-navy-900 border-y border-white/5 py-6">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-3">
+        <span class="text-slate-500 text-xs font-medium uppercase tracking-wider">Code-compliant &amp; certified:</span>
+        {c.certs.map((cert) => (
+          <span class="px-3 py-1 bg-white/5 border border-white/10 rounded-md text-slate-300 text-xs font-semibold">{cert}</span>
+        ))}
+      </div>
+    </section>
+
+    <!-- MEET THE DIRECTOR -->
+    <section class="py-16 lg:py-20 bg-slate-50 border-b border-slate-200 overflow-hidden">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+          <div class="lg:col-span-4">
+            <div class="aspect-square max-w-[260px] mx-auto lg:mx-0 overflow-hidden rounded-2xl border border-slate-200 shadow-lg bg-white">
+              <img src={c.directorPhoto} alt={c.directorPhotoAlt} class="w-full h-full object-cover" loading="lazy" />
+            </div>
+          </div>
+          <div class="lg:col-span-8">
+            <span class="inline-flex items-center gap-2 px-3 py-1 bg-brand-500/10 text-brand-600 text-xs font-semibold tracking-wider uppercase rounded-full mb-5">Who you'll be working with</span>
+            <svg class="w-10 h-10 text-brand-500/20 mb-4" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983z" />
+            </svg>
+            <blockquote class="font-heading text-2xl sm:text-3xl lg:text-4xl font-extrabold text-navy-900 leading-snug mb-6" set:html={c.directorQuoteHtml} />
+            <div class="flex items-center gap-4">
+              <div class="w-12 h-px bg-accent-500"></div>
+              <div>
+                <div class="font-heading font-bold text-navy-900">{c.directorName}</div>
+                <div class="text-slate-500 text-sm">{c.directorTitle}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PAIN / PROBLEM (localized Dutch pain points) -->
+    <section class="py-20 lg:py-28 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-3 mb-4 justify-center">
+          <div class="w-10 h-px bg-accent-500"></div>
+          <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.painEyebrow}</span>
+          <div class="w-10 h-px bg-accent-500"></div>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6" set:html={c.painTitleHtml} />
+        <p class="text-slate-500 text-lg leading-relaxed max-w-3xl mx-auto mb-12">{c.painIntro}</p>
+        <div class="grid sm:grid-cols-3 gap-6 text-left">
+          {c.painCards.map((p) => (
+            <div class="p-6 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-red-50 text-red-500 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <h3 class="font-heading font-bold text-navy-900 mb-2">{p.t}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{p.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- SERVICES / SOLUTION -->
+    <section class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-14">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.servicesEyebrow}</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-5">{c.servicesTitle}</h2>
+          <p class="text-slate-500 text-lg leading-relaxed">{c.servicesIntro}</p>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {c.services.map((s) => (
+            <div class="group p-7 bg-white border border-slate-200 rounded-2xl hover:border-brand-400 hover:shadow-xl hover:shadow-brand-500/5 transition-all">
+              <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-500 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d={s.icon} /></svg>
+              </div>
+              <h3 class="font-heading text-lg font-bold text-navy-900 mb-2.5">{s.title}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{s.body}</p>
+            </div>
+          ))}
+        </div>
+        <div class="text-center mt-12">
+          <a href="#lead" data-cta="services-form"
+             class="inline-flex items-center justify-center gap-2 px-8 py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all hover:shadow-xl hover:shadow-accent-500/20 text-base">
+            Scope My Project — Free Quote
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="py-16 bg-navy-950 relative overflow-hidden">
+      <div class="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-600/10 rounded-full blur-[100px]"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 lg:grid-cols-4 gap-8">
+        {c.stats.map((s) => (
+          <div class="text-center">
+            <div class="font-heading text-3xl lg:text-4xl font-extrabold text-white mb-1">{s.v}</div>
+            <div class="text-slate-400 text-sm">{s.l}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- STANDARDS & REGULATIONS -->
+    <section class="py-20 lg:py-28 bg-white">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-12">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.compliance.eyebrow}</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-5">{c.compliance.title}</h2>
+          <p class="text-slate-500 text-lg leading-relaxed">{c.compliance.intro}</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-6">
+          {c.compliance.items.map((item) => (
+            <div class="flex gap-4 p-6 bg-slate-50 border border-slate-200 rounded-xl">
+              <div class="w-10 h-10 shrink-0 rounded-lg bg-brand-500/10 text-brand-500 flex items-center justify-center">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div>
+                <h3 class="font-heading font-bold text-navy-900 mb-1.5">{item.t}</h3>
+                <p class="text-slate-500 text-sm leading-relaxed">{item.d}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- WHY US -->
+    <section class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-14 items-center">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Why IET</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6">{c.whyTitle}</h2>
+          <div class="space-y-6">
+            {c.whyPoints.map((r) => (
+              <div class="flex gap-4">
+                <div class="w-8 h-8 shrink-0 rounded-lg bg-success/10 text-success flex items-center justify-center mt-0.5">
+                  <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                </div>
+                <div>
+                  <h3 class="font-heading font-bold text-navy-900 mb-1">{r.t}</h3>
+                  <p class="text-slate-500 text-sm leading-relaxed">{r.d}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <Image src={c.whyImages[0].src} alt={c.whyImages[0].alt} class="rounded-xl border border-slate-200 w-full h-auto" />
+          <Image src={c.whyImages[1].src} alt={c.whyImages[1].alt} class="rounded-xl border border-slate-200 w-full h-auto mt-8" />
+          <Image src={c.whyImages[2].src} alt={c.whyImages[2].alt} class="rounded-xl border border-slate-200 w-full h-auto" />
+          <div class="rounded-xl bg-navy-900 border border-white/10 p-6 flex flex-col justify-center mt-8">
+            <div class="font-heading text-2xl font-extrabold text-white mb-1">{c.whyCalloutTitle}</div>
+            <p class="text-slate-400 text-sm">{c.whyCalloutBody}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DATA SECURITY -->
+    <section class="py-20 lg:py-28 bg-navy-950 relative overflow-hidden">
+      <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-[120px] -translate-x-1/4 -translate-y-1/4"></div>
+      <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-3xl mb-12">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.dataSecurity.eyebrow}</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">{c.dataSecurity.title}</h2>
+          <p class="text-slate-400 text-lg leading-relaxed">{c.dataSecurity.intro}</p>
+        </div>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {c.dataSecurity.cards.map((card) => (
+            <div class="p-6 bg-white/5 border border-white/10 rounded-xl">
+              <div class="w-10 h-10 rounded-lg bg-brand-500/15 text-brand-400 flex items-center justify-center mb-4">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+              </div>
+              <h3 class="font-heading font-bold text-white mb-2">{card.t}</h3>
+              <p class="text-slate-400 text-sm leading-relaxed">{card.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- PROCESS -->
+    <section class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-14">
+          <div class="inline-flex items-center gap-3 mb-4 justify-center">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">How it works</span>
+            <div class="w-10 h-px bg-accent-500"></div>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight">{c.processTitle}</h2>
+        </div>
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {c.steps.map((s) => (
+            <div class="p-7 bg-white border border-slate-200 rounded-2xl">
+              <div class="font-heading text-3xl font-extrabold text-slate-200 mb-4">{s.n}</div>
+              <h3 class="font-heading font-bold text-navy-900 mb-2">{s.t}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{s.d}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- GEOGRAPHIC / DUTCH HUBS -->
+    <section class="py-20 lg:py-28 bg-white">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div class="inline-flex items-center gap-3 mb-4 justify-center">
+          <div class="w-10 h-px bg-accent-500"></div>
+          <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Across the Netherlands</span>
+          <div class="w-10 h-px bg-accent-500"></div>
+        </div>
+        <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-navy-900 leading-tight mb-6">{c.geo.title}</h2>
+        <p class="text-slate-500 text-lg leading-relaxed max-w-3xl mx-auto mb-10">{c.geo.intro}</p>
+        <div class="flex flex-wrap items-center justify-center gap-3">
+          {c.geo.hubs.map((hub) => (
+            <span class="inline-flex items-center gap-2 px-4 py-2 bg-slate-50 border border-slate-200 rounded-full text-navy-900 text-sm font-semibold">
+              <svg class="w-4 h-4 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              {hub}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-20 lg:py-28 bg-slate-50 border-y border-slate-200">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-navy-900 leading-tight">Frequently asked questions</h2>
+        </div>
+        <div class="space-y-4">
+          {c.faqs.map((f) => (
+            <details class="group bg-white border border-slate-200 rounded-xl p-6">
+              <summary class="flex items-center justify-between cursor-pointer list-none font-heading font-bold text-navy-900">
+                {f.q}
+                <svg class="w-5 h-5 text-brand-500 transition-transform group-open:rotate-180 shrink-0 ml-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" /></svg>
+              </summary>
+              <p class="text-slate-500 text-sm leading-relaxed mt-4">{f.a}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- RELATED SERVICES (internal linking) -->
+    <section class="py-20 lg:py-28 bg-white">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="text-center max-w-2xl mx-auto mb-12">
+          <div class="inline-flex items-center gap-3 mb-4 justify-center">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">Related services</span>
+            <div class="w-10 h-px bg-accent-500"></div>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl font-extrabold text-navy-900 leading-tight">Explore more of what we deliver</h2>
+        </div>
+        <div class="grid md:grid-cols-3 gap-6">
+          {c.relatedLinks.map((link) => (
+            <a href={`/nl/${link.slug}`} class="group p-7 bg-slate-50 border border-slate-200 rounded-2xl hover:border-brand-400 hover:shadow-xl hover:shadow-brand-500/5 transition-all">
+              <h3 class="font-heading text-lg font-bold text-navy-900 mb-2.5 group-hover:text-brand-600 transition-colors">{link.label}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">{link.blurb}</p>
+              <span class="inline-flex items-center gap-2 text-brand-500 text-sm font-semibold">
+                Learn more
+                <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- LEAD FORM / FINAL CTA -->
+    <section id="lead" class="py-20 lg:py-28 bg-navy-950 relative overflow-hidden scroll-mt-20">
+      <div class="absolute top-0 left-0 w-[600px] h-[600px] bg-brand-600/10 rounded-full blur-[120px] -translate-x-1/4 -translate-y-1/4"></div>
+      <div class="absolute bottom-0 right-0 w-[500px] h-[500px] bg-accent-500/[0.06] rounded-full blur-[100px] translate-x-1/4"></div>
+
+      <div class="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+        <div class="lg:pt-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-px bg-accent-500"></div>
+            <span class="text-accent-500 text-sm font-semibold tracking-wider uppercase">{c.leadEyebrow}</span>
+          </div>
+          <h2 class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white leading-tight mb-5">{c.leadTitle}</h2>
+          <p class="text-slate-400 text-lg leading-relaxed mb-8">{c.leadIntro}</p>
+
+          <div class="space-y-4 mb-8">
+            {c.leadBullets.map((t) => (
+              <div class="flex items-center gap-3 text-slate-300">
+                <svg class="w-5 h-5 text-success shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg>
+                {t}
+              </div>
+            ))}
+          </div>
+
+          <div class="flex items-start gap-3 p-5 bg-white/5 border border-white/10 rounded-xl">
+            <svg class="w-5 h-5 text-accent-400 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+            <p class="text-slate-400 text-sm" set:html={c.leadNoteHtml} />
+          </div>
+        </div>
+
+        <!-- Native HTML POST → /api/lp-lead → 303 redirect to /lp/thank-you (PRG) -->
+        <div class="bg-white rounded-2xl p-8 lg:p-10 shadow-2xl">
+          <h3 class="font-heading text-xl font-bold text-navy-900 mb-6">Request your free scoping quote</h3>
+
+          {error && (
+            <div class="mb-5 px-4 py-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">
+              Please complete the required fields (name, company, email) and try again.
+            </div>
+          )}
+
+          <form method="POST" action="/api/lp-lead" class="space-y-5">
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="name" class="block text-sm font-medium text-navy-900 mb-1.5">Full Name <span class="text-red-500">*</span></label>
+                <input type="text" id="name" name="name" required autocomplete="name"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors" placeholder="Your name" />
+              </div>
+              <div>
+                <label for="company" class="block text-sm font-medium text-navy-900 mb-1.5">Company <span class="text-red-500">*</span></label>
+                <input type="text" id="company" name="company" required autocomplete="organization"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors" placeholder="Company name" />
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="email" class="block text-sm font-medium text-navy-900 mb-1.5">Work Email <span class="text-red-500">*</span></label>
+                <input type="email" id="email" name="email" required autocomplete="email"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors" placeholder="you@company.com" />
+              </div>
+              <div>
+                <label for="phone" class="block text-sm font-medium text-navy-900 mb-1.5">Phone</label>
+                <input type="tel" id="phone" name="phone" autocomplete="tel"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors" placeholder="+31..." />
+              </div>
+            </div>
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label for="location" class="block text-sm font-medium text-navy-900 mb-1.5">Location</label>
+                <select id="location" name="location"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors cursor-pointer">
+                  <option value="">Select location</option>
+                  {c.formLocationOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label for="service" class="block text-sm font-medium text-navy-900 mb-1.5">Service Required</label>
+                <select id="service" name="service"
+                  class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors cursor-pointer">
+                  <option value="">Select a service</option>
+                  {c.formServiceOptions.map((opt) => (
+                    <option value={opt}>{opt}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="message" class="block text-sm font-medium text-navy-900 mb-1.5">Project details</label>
+              <textarea id="message" name="message" rows="4"
+                class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-navy-900 text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500/30 focus:border-brand-500 transition-colors resize-none"
+                placeholder="Scope, standards, software, and your target deadline..."></textarea>
+            </div>
+
+            <!-- Honeypot -->
+            <div class="absolute opacity-0 -z-10 h-0 w-0 overflow-hidden" aria-hidden="true">
+              <label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+            </div>
+
+            <!-- Campaign attribution (populated from query string client-side) -->
+            <input type="hidden" name="utm_source" />
+            <input type="hidden" name="utm_medium" />
+            <input type="hidden" name="utm_campaign" />
+            <input type="hidden" name="utm_term" />
+            <input type="hidden" name="gclid" />
+            <!-- Clean slug for attribution; return_path bounces validation errors
+                 back to this organic /nl/ page (it lives outside /lp/). -->
+            <input type="hidden" name="lp_slug" value={slug} />
+            <input type="hidden" name="return_path" value={`/nl/${slug}`} />
+
+            <button type="submit"
+              class="w-full py-4 bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-lg transition-all hover:shadow-lg hover:shadow-accent-500/20 text-base">
+              Get My Free Quote
+            </button>
+            <p class="text-slate-400 text-xs text-center">
+              We reply to every scoping request within 24 business hours. Your details stay confidential.
+            </p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <Footer />
+</Layout>
+
+<script>
+  // Carry any UTM / gclid attribution from the URL into the lead form's hidden
+  // fields, and push CTA clicks into the dataLayer for GTM / analytics.
+  const params = new URLSearchParams(window.location.search);
+  const setHidden = (name: string) => {
+    const el = document.querySelector<HTMLInputElement>(`input[name="${name}"]`);
+    const val = params.get(name);
+    if (el && val) el.value = val;
+  };
+  ["utm_source", "utm_medium", "utm_campaign", "utm_term", "gclid"].forEach(setHidden);
+
+  document.querySelectorAll<HTMLElement>("[data-cta]").forEach((el) => {
+    el.addEventListener("click", () => {
+      (window as any).dataLayer = (window as any).dataLayer || [];
+      (window as any).dataLayer.push({ event: "cta_click", cta: el.getAttribute("data-cta") });
+    });
+  });
+</script>
