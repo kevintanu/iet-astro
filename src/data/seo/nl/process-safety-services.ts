@@ -1,10 +1,10 @@
-import { DIRECTOR, ICONS, type SeoEntry } from "./_shared";
-import { NL_LOCATIONS } from "./_shared";
+import { DIRECTOR, ICONS, type SeoEntry } from "../_shared";
+import { NL_LOCATIONS } from "../_shared";
 
-import polymerization from "../../assets/projects/022_polymerization_plant-768x386.jpg";
-import wasteWater from "../../assets/projects/019_waster_water_treatment-768x408.jpg";
-import analysisDesign from "../../assets/projects/011_analysis_design-768x406.jpg";
-import pipeStress from "../../assets/projects/014_pipe_stress_analysis-768x403.jpg";
+import polymerization from "../../../assets/projects/022_polymerization_plant-768x386.jpg";
+import wasteWater from "../../../assets/projects/019_waster_water_treatment-768x408.jpg";
+import analysisDesign from "../../../assets/projects/011_analysis_design-768x406.jpg";
+import pipeStress from "../../../assets/projects/014_pipe_stress_analysis-768x403.jpg";
 
 // SPOKE — Process safety: HAZOP study + SIL verification — Netherlands
 const entry: SeoEntry = {

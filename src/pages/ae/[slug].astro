@@ -3,10 +3,10 @@ import SeoPage from '../../components/seo/SeoPage.astro';
 import { PAGES_BY_REGION } from '../../data/seoPages';
 import { REGIONS } from '../../data/seo/regions';
 
-// Organic SEO pages targeting the Dutch market → /nl/<slug>. One route per
+// Organic SEO pages targeting the UAE market → /ae/<slug>. One route per
 // registered slug; all markup lives in the shared <SeoPage> component.
 export function getStaticPaths() {
-  return Object.entries(PAGES_BY_REGION.nl).map(([slug, page]) => ({
+  return Object.entries(PAGES_BY_REGION.ae).map(([slug, page]) => ({
     params: { slug },
     props: { page },
   }));
@@ -16,4 +16,4 @@ const { slug } = Astro.params;
 const { page } = Astro.props;
 ---
 
-<SeoPage page={page} slug={slug!} region={REGIONS.nl} />
+<SeoPage page={page} slug={slug!} region={REGIONS.ae} />
