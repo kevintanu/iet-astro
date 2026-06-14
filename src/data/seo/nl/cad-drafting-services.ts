@@ -1,10 +1,10 @@
-import { DIRECTOR, ICONS, type SeoEntry } from "./_shared";
-import { NL_LOCATIONS } from "./_shared";
+import { DIRECTOR, ICONS, type SeoEntry } from "../_shared";
+import { NL_LOCATIONS } from "../_shared";
 
-import plant3d from "../../assets/projects/006_3dplant-768x385.jpg";
-import uaeCad from "../../assets/projects/002_uaecad-768x411.jpg";
-import pidConv from "../../assets/projects/007_pidconv-768x375.jpg";
-import structuralDesign from "../../assets/projects/012_structural_design-768x414.jpg";
+import plant3d from "../../../assets/projects/006_3dplant-768x385.jpg";
+import uaeCad from "../../../assets/projects/002_uaecad-768x411.jpg";
+import pidConv from "../../../assets/projects/007_pidconv-768x375.jpg";
+import structuralDesign from "../../../assets/projects/012_structural_design-768x414.jpg";
 
 // SPOKE — CAD drafting services — Netherlands (organic SEO)
 const entry: SeoEntry = {

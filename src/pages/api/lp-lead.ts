@@ -41,8 +41,11 @@ export const POST: APIRoute = async ({ request, redirect }) => {
     const returnPath = /^\/[a-z0-9/-]+$/.test(rawReturn) ? rawReturn : "";
     const lpPath =
       returnPath || (lpSlug ? `/lp/${lpSlug}` : "/lp/offshore-piping-stress-analysis-australia");
+    // Region prefix from the return path (e.g. "/ae/..." → "ae") so notifications
+    // distinguish organic regions. Empty for /lp/ ad pages (no return_path).
+    const region = returnPath.split("/")[1] ?? "";
     // Human label for the notifications (was hardcoded "AU / Piping LP").
-    const lpLabel = lpSlug || "unknown LP";
+    const lpLabel = region ? `${region} / ${lpSlug}` : lpSlug || "unknown LP";
 
     // Required fields. On failure, bounce back to the same form with an error flag.
     if (!name || !email || !company) {

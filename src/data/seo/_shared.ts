@@ -135,7 +135,7 @@ export interface SeoEntry {
   page: SeoPage;
 }
 
-// Shared Dutch location options for the lead form, reused across all pages.
+// Shared Dutch location options for the lead form, reused across all NL pages.
 export const NL_LOCATIONS = [
   "Amsterdam",
   "Rotterdam",
@@ -143,5 +143,16 @@ export const NL_LOCATIONS = [
   "Utrecht",
   "The Hague (Den Haag)",
   "Other (Netherlands)",
+  "International",
+];
+
+// Shared UAE location options for the lead form, reused across all AE pages.
+export const AE_LOCATIONS = [
+  "Dubai",
+  "Abu Dhabi",
+  "Sharjah",
+  "Ras Al Khaimah",
+  "Other (UAE)",
+  "GCC / Middle East",
   "International",
 ];

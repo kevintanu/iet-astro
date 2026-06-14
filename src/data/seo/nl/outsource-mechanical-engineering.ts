@@ -1,10 +1,10 @@
-import { DIRECTOR, ICONS, type SeoEntry } from "./_shared";
-import { NL_LOCATIONS } from "./_shared";
+import { DIRECTOR, ICONS, type SeoEntry } from "../_shared";
+import { NL_LOCATIONS } from "../_shared";
 
-import mechanicalDesign from "../../assets/projects/013_mechanical_design-768x417.jpg";
-import typicalSkid from "../../assets/projects/016_typical_skid-768x416.jpg";
-import centrifugalPump from "../../assets/projects/017_centrifugal_pump-768x374.jpg";
-import skidGa from "../../assets/projects/015_skid_ga-768x429.jpg";
+import mechanicalDesign from "../../../assets/projects/013_mechanical_design-768x417.jpg";
+import typicalSkid from "../../../assets/projects/016_typical_skid-768x416.jpg";
+import centrifugalPump from "../../../assets/projects/017_centrifugal_pump-768x374.jpg";
+import skidGa from "../../../assets/projects/015_skid_ga-768x429.jpg";
 
 // SPOKE — Outsource mechanical engineering — Netherlands
 const entry: SeoEntry = {

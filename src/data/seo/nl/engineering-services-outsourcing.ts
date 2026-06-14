@@ -1,10 +1,10 @@
-import { DIRECTOR, ICONS, type SeoEntry } from "./_shared";
-import { NL_LOCATIONS } from "./_shared";
+import { DIRECTOR, ICONS, type SeoEntry } from "../_shared";
+import { NL_LOCATIONS } from "../_shared";
 
-import powerPlant from "../../assets/projects/005_powerplantid-768x409.jpg";
-import plant3d from "../../assets/projects/006_3dplant-768x385.jpg";
-import structuralDesign from "../../assets/projects/012_structural_design-768x414.jpg";
-import mechanicalDesign from "../../assets/projects/013_mechanical_design-768x417.jpg";
+import powerPlant from "../../../assets/projects/005_powerplantid-768x409.jpg";
+import plant3d from "../../../assets/projects/006_3dplant-768x385.jpg";
+import structuralDesign from "../../../assets/projects/012_structural_design-768x414.jpg";
+import mechanicalDesign from "../../../assets/projects/013_mechanical_design-768x417.jpg";
 
 // PILLAR — Engineering services outsourcing / engineering outsourcing companies — Netherlands
 const entry: SeoEntry = {

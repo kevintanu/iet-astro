@@ -15,8 +15,10 @@ const rawTo = Astro.url.searchParams.get("to") ?? "";
 const toPath = /^\/[a-z0-9/-]+$/.test(rawTo) ? rawTo : "";
 const isKnown = !!getCampaign(fromSlug);
 const LP_URL = toPath || (isKnown ? `/lp/${fromSlug}` : "/lp/offshore-piping-stress-analysis-australia");
+// Region prefix from the organic return path (e.g. "/ae/..." → "ae").
+const region = toPath.split("/")[1] ?? "";
 // Per-campaign conversion label for GTM / Google Ads (was hardcoded to piping).
-const leadType = toPath ? `nl_${fromSlug}` : isKnown ? `lp_${fromSlug}` : "lp_unknown";
+const leadType = region ? `${region}_${fromSlug}` : isKnown ? `lp_${fromSlug}` : "lp_unknown";
 
 // Conversion pages should not be indexed.
 ---
